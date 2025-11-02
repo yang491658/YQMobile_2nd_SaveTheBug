@@ -24,7 +24,6 @@ public class AutoUICanvas : MonoBehaviour
         scaler = GetComponent<CanvasScaler>();
         scaler.uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize;
         scaler.screenMatchMode = CanvasScaler.ScreenMatchMode.MatchWidthOrHeight;
-        scaler.referenceResolution = AutoCamera.RefResolution;
     }
 
     private void Apply(bool _force)

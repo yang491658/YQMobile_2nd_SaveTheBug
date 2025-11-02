@@ -23,8 +23,9 @@ public class Item : Entity
 
         if (!isActive)
         {
-            Vector3 dir = (Random.insideUnitCircle).normalized;
-            Move(dir * speed);
+            Vector3 dir = Random.insideUnitCircle;
+            if (dir == Vector3.zero) dir = - transform.position;
+            Move(dir.normalized * speed);
         }
     }
 
@@ -56,7 +57,7 @@ public class Item : Entity
         sr.sortingOrder = ((ItemData)data).Sort;
         col.isTrigger = true;
         isActive = true;
-        
+
         if (backCol != null) Destroy(backCol.gameObject);
     }
 }

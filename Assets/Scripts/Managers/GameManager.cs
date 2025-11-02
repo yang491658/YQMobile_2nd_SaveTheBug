@@ -13,6 +13,8 @@ public class GameManager : MonoBehaviour
 
     [Header("Level")]
     [SerializeField] private int level = 0;
+    [SerializeField] private int currentEXP = 0;
+    [SerializeField] private int nextEXP = 0;
 
     public bool IsPaused { private set; get; } = false;
     public bool IsGameOver { private set; get; } = false;
@@ -61,6 +63,9 @@ public class GameManager : MonoBehaviour
         IsGameOver = false;
         ResetScore();
 
+        ResetLevel();
+        AddLevel();
+
         SoundManager.Instance?.PlayBGM("Default");
 
         UIManager.Instance?.ResetPlayTime();
@@ -77,6 +82,7 @@ public class GameManager : MonoBehaviour
     {
         score += _score;
         OnChangeScore?.Invoke(score);
+        AddEXP(_score);
     }
 
     public void ResetScore()
@@ -87,9 +93,29 @@ public class GameManager : MonoBehaviour
     #endregion
 
     #region 레벨
-    public void AddLevel() => level++;
+    public void AddEXP(int _exp)
+    {
+        currentEXP += _exp;
+        while (nextEXP > 0 && currentEXP >= nextEXP)
+        {
+            currentEXP -= nextEXP;
+            AddLevel();
+        }
+    }
 
-    public void ResetLevel() => level = 0;
+    private void AddLevel()
+    {
+        level++;
+        if (nextEXP <= 0) nextEXP = 10;
+        else nextEXP += 10;
+    }
+
+    public void ResetLevel()
+    {
+        level = 0;
+        currentEXP = 0;
+        nextEXP = 0;
+    }
     #endregion
 
     #region 진행

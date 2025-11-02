@@ -70,7 +70,7 @@ public class SoundManager : MonoBehaviour
     }
 
     public void PauseSound(bool _on) => AudioListener.pause = _on;
-    public void PauseSounde(string _on) => AudioListener.pause = bool.TryParse(_on, out var v) && v;
+    public void PauseSound(string _on) => AudioListener.pause = bool.TryParse(_on, out var v) && v;
 
     #region 배경음
     public void PlayBGM(AudioClip _clip)
@@ -103,9 +103,7 @@ public class SoundManager : MonoBehaviour
             SetBGMVolume(0f);
         }
         else
-        {
             SetBGMVolume(prevBgmVol);
-        }
     }
     #endregion
 
@@ -131,9 +129,7 @@ public class SoundManager : MonoBehaviour
             SetSFXVolume(0f);
         }
         else
-        {
             SetSFXVolume(prevSfxVol);
-        }
     }
 
     public void Button() => PlaySFX("Button");

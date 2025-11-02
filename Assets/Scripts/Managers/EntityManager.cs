@@ -246,8 +246,10 @@ public class EntityManager : MonoBehaviour
     {
         for (int i = 0; i < items.Count; i++)
         {
-            if (items[i].GetComponent<Clone>() != null)
-                return items[i];
+            Clone clone = items[i].GetComponent<Clone>();
+
+            if (clone != null && clone.isActive)
+                return clone;
         }
         return null;
     }

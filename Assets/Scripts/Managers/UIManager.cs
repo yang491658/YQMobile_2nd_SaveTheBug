@@ -12,8 +12,9 @@ public struct ItemSlot
 {
     public GameObject go;
     public Image image;
-    public TextMeshProUGUI level;
+    public TextMeshProUGUI stat;
     public Button upBtn;
+    public TextMeshProUGUI upBtnText;
 
     public ItemSlot(GameObject obj)
     {
@@ -25,8 +26,9 @@ public struct ItemSlot
             if (img != null) { image = img; break; }
         }
 
-        level = obj.GetComponentInChildren<TextMeshProUGUI>();
+        stat = obj.GetComponentInChildren<TextMeshProUGUI>();
         upBtn = obj.GetComponentInChildren<Button>();
+        upBtnText = upBtn.GetComponentInChildren<TextMeshProUGUI>();
     }
 }
 
@@ -63,7 +65,9 @@ public class UIManager : MonoBehaviour
 
     [Header("Stat UI")]
     [SerializeField] private GameObject statUI;
-    [SerializeField] private List<ItemSlot> itemStats = new List<ItemSlot>();
+    [SerializeField] private TextMeshProUGUI statLevelText;
+    [SerializeField] private TextMeshProUGUI statPointText;
+    [SerializeField] private List<ItemSlot> statItems = new List<ItemSlot>();
 
     [Header("Result UI")]
     [SerializeField] private GameObject resultUI;
@@ -112,9 +116,13 @@ public class UIManager : MonoBehaviour
 
         if (statUI == null)
             statUI = GameObject.Find("StatUI");
-        if (itemStats == null || itemStats.Count == 0)
+        if (statLevelText == null)
+            statLevelText = GameObject.Find("StatUI/Level/LevelText").GetComponent<TextMeshProUGUI>();
+        if (statPointText == null)
+            statPointText = GameObject.Find("StatUI/Point/PointText").GetComponent<TextMeshProUGUI>();
+        if (statItems == null || statItems.Count == 0)
             foreach (Transform child in GameObject.Find("StatUI/Items").transform)
-                itemStats.Add(new ItemSlot(child.gameObject));
+                statItems.Add(new ItemSlot(child.gameObject));
 
         if (resultUI == null)
             resultUI = GameObject.Find("ResultUI");
@@ -157,8 +165,9 @@ public class UIManager : MonoBehaviour
     private void Start()
     {
         UpdateScore(GameManager.Instance.GetScore());
-        UpdateLevel(GameManager.Instance.GetLevel());
         UpdateExp(GameManager.Instance.GetCurrentExp());
+        UpdateLevel(GameManager.Instance.GetLevel());
+        UpdatePoint(GameManager.Instance.GetStatPoint());
     }
 
     private void Update()
@@ -172,8 +181,9 @@ public class UIManager : MonoBehaviour
     private void OnEnable()
     {
         GameManager.Instance.OnChangeScore += UpdateScore;
-        GameManager.Instance.OnChangeLevel += UpdateLevel;
         GameManager.Instance.OnChangeExp += UpdateExp;
+        GameManager.Instance.OnChangeLevel += UpdateLevel;
+        GameManager.Instance.OnChangePoint += UpdatePoint;
 
         SoundManager.Instance.OnChangeVolume += UpdateVolume;
         bgmSlider.value = SoundManager.Instance.GetBGMVolume();
@@ -187,8 +197,9 @@ public class UIManager : MonoBehaviour
     private void OnDisable()
     {
         GameManager.Instance.OnChangeScore -= UpdateScore;
-        GameManager.Instance.OnChangeLevel -= UpdateLevel;
         GameManager.Instance.OnChangeExp -= UpdateExp;
+        GameManager.Instance.OnChangeLevel -= UpdateLevel;
+        GameManager.Instance.OnChangePoint -= UpdatePoint;
 
         SoundManager.Instance.OnChangeVolume -= UpdateVolume;
         bgmSlider.onValueChanged.RemoveListener(SoundManager.Instance.SetBGMVolume);
@@ -244,13 +255,22 @@ public class UIManager : MonoBehaviour
         confirmUI.SetActive(!_on);
 
         statUI.SetActive(_on);
-        for (int i = 0; i < itemStats.Count; i++)
-        {
-            var item = EntityManager.Instance.GetDatas()[i];
 
-            itemStats[i].go.name = item.Name;
-            itemStats[i].image.sprite = item.Image;
-            itemStats[i].level.text = item.Level.ToString("'LV.'00");
+        var datas = EntityManager.Instance?.GetDatas();
+        for (int i = 0; i < statItems.Count; i++)
+        {
+            var item = datas[i];
+
+            statItems[i].go.name = item.Name;
+            statItems[i].image.sprite = item.Image;
+            statItems[i].stat.text = item.Stat.ToString();
+
+            UpdateStat(i, item);
+
+            int idx = i;
+            statItems[idx].upBtn.onClick.RemoveAllListeners();
+            statItems[idx].upBtn.onClick.AddListener(SoundManager.Instance.Button);
+            statItems[idx].upBtn.onClick.AddListener(() => OnClickStatUp(idx));
         }
     }
 
@@ -287,12 +307,6 @@ public class UIManager : MonoBehaviour
         resultScoreText.text = s;
     }
 
-    public void UpdateLevel(int _level)
-    {
-        string l = _level.ToString("'LV.'00");
-        levelText.text = l;
-    }
-
     public void UpdateExp(int _cur)
     {
         int next = GameManager.Instance.GetNextExp();
@@ -305,6 +319,33 @@ public class UIManager : MonoBehaviour
 
         expSlider.maxValue = next;
         expSlider.value = Mathf.Clamp(next - _cur, 0, next);
+    }
+
+    public void UpdateLevel(int _level)
+    {
+        string l = _level.ToString("'LV.'00");
+        levelText.text = l;
+        statLevelText.text = l;
+
+        if (statUI.activeSelf)
+        {
+            var datas = EntityManager.Instance?.GetDatas();
+            for (int i = 0; i < statItems.Count; i++)
+                UpdateStat(i, datas[i]);
+        }
+    }
+
+    public void UpdatePoint(int _point)
+    {
+        string p = _point.ToString("SP : 00");
+        statPointText.text = p;
+
+        if (statUI.activeSelf)
+        {
+            var datas = EntityManager.Instance?.GetDatas();
+            for (int i = 0; i < statItems.Count; i++)
+                UpdateStat(i, datas[i]);
+        }
     }
 
     private void UpdateVolume(SoundType _type, float _volume)
@@ -342,6 +383,24 @@ public class UIManager : MonoBehaviour
                 sfxIcon.sprite = sfxIcons[0];
         }
     }
+
+    private void UpdateStat(int _index, ItemData _item)
+    {
+        statItems[_index].stat.text = _item.Stat.ToString();
+
+        if (_item.MaxStat > 0 && _item.Stat >= _item.MaxStat)
+            statItems[_index].stat.color = Color.blue;
+        else
+            statItems[_index].stat.color = Color.white;
+
+        bool canUp =
+            (GameManager.Instance?.GetLevel() >= _item.Level) &&
+            (GameManager.Instance?.GetStatPoint() > 0) &&
+            (_item.MaxStat == 0 || _item.Stat < _item.MaxStat);
+
+        statItems[_index].upBtn.interactable = canUp;
+        statItems[_index].upBtnText.color = canUp ? Color.blue : new Color(0.5f, 0.5f, 0.5f, 0.5f);
+    }
     #endregion
 
     #region 버튼
@@ -361,6 +420,12 @@ public class UIManager : MonoBehaviour
     public void OnClickCancel() => OpenConfirm(false);
 
     public void OnClickStat() => OpenStat(true);
+    private void OnClickStatUp(int _index)
+    {
+        var item = EntityManager.Instance?.GetDatas()[_index];
+        item.StatUp();
+        UpdateStat(_index, item);
+    }
     #endregion
 
     #region SET

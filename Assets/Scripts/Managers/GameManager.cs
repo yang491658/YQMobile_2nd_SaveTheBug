@@ -11,13 +11,19 @@ public class GameManager : MonoBehaviour
     private float scoreAdd = 0f;
     public event System.Action<int> OnChangeScore;
 
-    [Header("Level")]
-    [SerializeField] private int level = 0;
-    public event System.Action<int> OnChangeLevel;
+    [Header("Exp")]
     [SerializeField] private int currentExp = 0;
     [SerializeField] private int nextExp = 0;
     [SerializeField] private int expUp = 10;
     public event System.Action<int> OnChangeExp;
+
+    [Header("Level")]
+    [SerializeField] private int level = 0;
+    public event System.Action<int> OnChangeLevel;
+
+    [Header("Pont")]
+    [SerializeField] private int point = 0;
+    public event System.Action<int> OnChangePoint;
 
     public bool IsPaused { private set; get; } = false;
     public bool IsGameOver { private set; get; } = false;
@@ -110,10 +116,13 @@ public class GameManager : MonoBehaviour
     public void LevelUp()
     {
         level++;
+        point++;
+
         if (nextExp <= 0) nextExp = expUp;
         else nextExp += expUp;
         OnChangeLevel?.Invoke(level);
         OnChangeExp?.Invoke(currentExp);
+        OnChangePoint?.Invoke(point);
     }
 
     public void ResetLevel()
@@ -121,8 +130,17 @@ public class GameManager : MonoBehaviour
         level = 0;
         currentExp = 0;
         nextExp = 0;
+        point = 0;
         OnChangeLevel?.Invoke(level);
         OnChangeExp?.Invoke(currentExp);
+    }
+    #endregion
+
+    #region 포인트
+    public void UsePoint()
+    {
+        point--;
+        OnChangePoint?.Invoke(point);
     }
     #endregion
 
@@ -137,7 +155,7 @@ public class GameManager : MonoBehaviour
 
     private void ActWithReward(System.Action _act)
     {
-        if (ADManager.Instance != null) ADManager.Instance.ShowReward(_act);
+        if (ADManager.Instance != null) ADManager.Instance?.ShowReward(_act);
         else _act?.Invoke();
     }
 
@@ -179,8 +197,9 @@ public class GameManager : MonoBehaviour
 
     #region GET
     public int GetScore() => score;
-    public int GetLevel() => level;
     public int GetCurrentExp() => currentExp;
     public int GetNextExp() => nextExp;
+    public int GetLevel() => level;
+    public int GetStatPoint() => point;
     #endregion
 }

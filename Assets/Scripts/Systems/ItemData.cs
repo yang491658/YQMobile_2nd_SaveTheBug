@@ -13,7 +13,9 @@ public class ItemData : EntityData
     public int Sort;
 
     [Header("Stat")]
-    public int Level;
+    [Min(1)] public int Level = 1;
+    public int Stat = 0;
+    [Min(0)] public int MaxStat = 10;
 
 #if UNITY_EDITOR
     protected override void OnValidate()
@@ -60,6 +62,14 @@ public class ItemData : EntityData
             }
         }
 
+        Level = Mathf.Max(Level, 1);
+
+        if (MaxStat > 0)
+        {
+            MaxStat = Mathf.Max(MaxStat, Stat);
+            Stat = Mathf.Min(Stat, MaxStat);
+        }
+
         base.OnValidate();
         EditorUtility.SetDirty(this);
     }
@@ -68,7 +78,7 @@ public class ItemData : EntityData
     new public ItemData Clone()
     {
         var clone = CreateInstance<ItemData>();
-        
+
         clone.name = this.Name;
 
         clone.ID = this.ID;
@@ -76,7 +86,24 @@ public class ItemData : EntityData
         clone.Image = this.Image;
         clone.Script = this.Script;
         clone.Sort = this.Sort;
-        
+        clone.Level = this.Level;
+        clone.Stat = this.Stat;
+        clone.MaxStat = this.MaxStat;
+
         return clone;
+    }
+
+    public void StatUp()
+    {
+        if (Level > GameManager.Instance?.GetLevel()) return;
+        
+        if (GameManager.Instance?.GetStatPoint() > 0)
+        {
+            GameManager.Instance?.UsePoint();
+            if (MaxStat > 0)
+                Stat = Mathf.Min(Stat + 1, MaxStat);
+            else
+                Stat += 1;
+        }
     }
 }

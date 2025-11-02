@@ -56,7 +56,7 @@ public class TestManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.B))
         {
             bgmPause = !bgmPause;
-            SoundManager.Instance.Pause(bgmPause);
+            SoundManager.Instance.PauseSound(bgmPause);
         }
         if (Input.GetKeyDown(KeyCode.M))
             SoundManager.Instance.ToggleBGM();

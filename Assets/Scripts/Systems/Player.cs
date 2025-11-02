@@ -25,7 +25,7 @@ public class Player : Entity
         base.Update();
 
 #if UNITY_EDITOR
-        float x = Input.GetAxis("Horizontal");
+        float x = Input.GetAxisRaw("Horizontal");
         float y = Input.GetAxisRaw("Vertical");
         Move(new Vector3(x, y).normalized * 5f);
 #endif

@@ -117,7 +117,7 @@ public class UIManager : MonoBehaviour
 
     private void Start()
     {
-        UpdateScore(GameManager.Instance.GetTotalScore());
+        UpdateScore(GameManager.Instance.GetScore());
     }
 
     private void Update()
@@ -139,6 +139,7 @@ public class UIManager : MonoBehaviour
         sfxSlider.onValueChanged.AddListener(SoundManager.Instance.SetSFXVolume);
 
         OnOpenUI += GameManager.Instance.Pause;
+        OnOpenUI += SoundManager.Instance.PauseBGM;
     }
 
     private void OnDisable()
@@ -150,6 +151,7 @@ public class UIManager : MonoBehaviour
         sfxSlider.onValueChanged.RemoveListener(SoundManager.Instance.SetSFXVolume);
 
         OnOpenUI -= GameManager.Instance.Pause;
+        OnOpenUI -= SoundManager.Instance.PauseBGM;
     }
 
     #region 오픈

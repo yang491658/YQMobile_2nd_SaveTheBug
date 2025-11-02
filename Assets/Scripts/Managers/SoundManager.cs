@@ -69,8 +69,8 @@ public class SoundManager : MonoBehaviour
             btn.onClick.AddListener(Button);
     }
 
-    public void Pause(bool _on) => AudioListener.pause = _on;
-    public void Pause(string _on) => AudioListener.pause = bool.TryParse(_on, out var v) && v;
+    public void PauseSound(bool _on) => AudioListener.pause = _on;
+    public void PauseSounde(string _on) => AudioListener.pause = bool.TryParse(_on, out var v) && v;
 
     #region 배경음
     public void PlayBGM(AudioClip _clip)
@@ -85,6 +85,12 @@ public class SoundManager : MonoBehaviour
     {
         if (bgmDict.TryGetValue(_name, out var clip))
             PlayBGM(clip);
+    }
+
+    public void PauseBGM(bool _on)
+    {
+        if (_on) bgmSource.Pause();
+        else bgmSource.UnPause();
     }
 
     public void StopBGM() => bgmSource.Stop();

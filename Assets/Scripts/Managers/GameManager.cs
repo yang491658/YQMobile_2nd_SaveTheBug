@@ -7,9 +7,12 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance { private set; get; }
 
     [Header("Score")]
-    [SerializeField] private int totalScore = 0;
+    [SerializeField] private int score = 0;
     private float scoreAdd = 0f;
     public event System.Action<int> OnChangeScore;
+
+    [Header("Level")]
+    [SerializeField] private int level = 0;
 
     public bool IsPaused { private set; get; } = false;
     public bool IsGameOver { private set; get; } = false;
@@ -72,15 +75,21 @@ public class GameManager : MonoBehaviour
     #region 점수
     public void AddScore(int _score = 1)
     {
-        totalScore += _score;
-        OnChangeScore?.Invoke(totalScore);
+        score += _score;
+        OnChangeScore?.Invoke(score);
     }
 
     public void ResetScore()
     {
-        totalScore = 0;
-        OnChangeScore?.Invoke(totalScore);
+        score = 0;
+        OnChangeScore?.Invoke(score);
     }
+    #endregion
+
+    #region 레벨
+    public void AddLevel() => level++;
+
+    public void ResetLevel() => level = 0;
     #endregion
 
     #region 진행
@@ -135,6 +144,6 @@ public class GameManager : MonoBehaviour
     #endregion
 
     #region GET
-    public int GetTotalScore() => totalScore;
+    public int GetScore() => score;
     #endregion
 }

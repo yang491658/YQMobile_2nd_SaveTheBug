@@ -23,8 +23,8 @@ public class Item : Entity
 
         if (!isActive)
         {
-            Vector3 dir = Random.insideUnitCircle;
-            if (dir == Vector3.zero) dir = - transform.position;
+            float angle = Random.Range(-15f, 15f);
+            Vector3 dir = Quaternion.Euler(0f, 0f, angle) * (-transform.position);
             Move(dir.normalized * speed);
         }
     }
@@ -40,7 +40,7 @@ public class Item : Entity
     {
         if (_collision.CompareTag("Enemy") && isActive)
         {
-            GameManager.Instance?.AddScore();
+            GameManager.Instance?.AddScore(5);
             EntityManager.Instance?.RemoveEnemy(_collision.GetComponent<Enemy>());
         }
     }

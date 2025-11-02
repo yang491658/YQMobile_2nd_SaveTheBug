@@ -2330,7 +2330,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0, y: 0, z: 1}
+  m_LocalScale: {x: 1.3183594, y: 1.7045455, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 524469655}
@@ -2819,6 +2819,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   score: 0
   level: 0
+  currentExp: 0
+  nextExp: 0
+  expUp: 5
 --- !u!4 &892690366
 Transform:
   m_ObjectHideFlags: 0
@@ -5010,7 +5013,7 @@ MonoBehaviour:
   testCount: 1
   isAutoPlay: 0
   isAutoReplay: 0
-  regameTime: 5
+  replayTime: 5
   bgmPause: 0
   spawn: 1
 --- !u!4 &1407473050

@@ -253,11 +253,6 @@ public class EntityManager : MonoBehaviour
         }
         return null;
     }
-    public Enemy GetEnemyRandom()
-    {
-        if (enemies.Count == 0) return null;
-        return enemies[Random.Range(0, enemies.Count)];
-    }
     public Enemy GetEnemyClosest(Vector3 _pos)
     {
         if (enemies.Count == 0) return null;

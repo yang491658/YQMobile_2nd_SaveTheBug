@@ -130,7 +130,7 @@ public class EntityManager : MonoBehaviour
         return i;
     }
 
-    public void ResetItemDatas(bool _refund)
+    public void ResetItems(bool _refund)
     {
         foreach (var item in itemDatas)
             item.ResetStat(_refund);

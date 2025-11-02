@@ -77,13 +77,13 @@ public class GameManager : MonoBehaviour
 
         SoundManager.Instance?.PlayBGM("Default");
 
-        UIManager.Instance?.ResetPlayTime();
-        UIManager.Instance?.OpenUI(false);
-
-        EntityManager.Instance?.ResetItemDatas(false);
+        EntityManager.Instance?.ResetItems(false);
         EntityManager.Instance?.ResetDelay();
         EntityManager.Instance?.SetEntity();
         EntityManager.Instance?.ToggleSpawn(true);
+
+        UIManager.Instance?.ResetPlayTime();
+        UIManager.Instance?.OpenUI(false);
 
         HandleManager.Instance?.SetHandle();
     }

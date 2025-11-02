@@ -109,8 +109,10 @@ public class ItemData : EntityData
 
     public void ResetStat(bool _refund)
     {
-        if (_refund && Stat > 0)
-            GameManager.Instance?.PointUp(Stat);
+        int refund = Stat;
         Stat = 0;
+
+        if (_refund)
+            GameManager.Instance?.PointUp(refund);
     }
 }

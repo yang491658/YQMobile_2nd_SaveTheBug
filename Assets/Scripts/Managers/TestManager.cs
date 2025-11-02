@@ -50,6 +50,9 @@ public class TestManager : MonoBehaviour
             GameManager.Instance?.Replay();
         if (Input.GetKeyDown(KeyCode.Q))
             GameManager.Instance?.Quit();
+
+        if (Input.GetKeyDown(KeyCode.L))
+            GameManager.Instance?.LevelUp();
         #endregion
 
         #region 사운드 테스트

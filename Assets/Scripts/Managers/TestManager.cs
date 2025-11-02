@@ -7,6 +7,8 @@ public class TestManager : MonoBehaviour
     static public TestManager Instance { private set; get; }
 
     [Header("Game Test")]
+    [SerializeField] private int testCount = 1;
+    [SerializeField] private bool isAutoPlay = false;
     [SerializeField] private bool isAutoReplay = false;
     [SerializeField][Min(1f)] private float replayTime = 5f;
     private Coroutine replayRoutine;
@@ -42,7 +44,10 @@ public class TestManager : MonoBehaviour
             GameManager.Instance?.GameOver();
 
         if (Input.GetKeyDown(KeyCode.O))
+        {
             isAutoReplay = !isAutoReplay;
+            AutoPlay();
+        }
         if (isAutoReplay && GameManager.Instance.IsGameOver && replayRoutine == null)
             replayRoutine = StartCoroutine(AutoReplay());
 
@@ -101,11 +106,26 @@ public class TestManager : MonoBehaviour
         #endregion
     }
 
+    private void AutoPlay()
+    {
+        if (!isAutoPlay)
+        {
+            isAutoPlay = true;
+        }
+        else
+        {
+            isAutoPlay = false;
+        }
+    }
+
     private IEnumerator AutoReplay()
     {
         yield return new WaitForSecondsRealtime(replayTime);
         if (GameManager.Instance.IsGameOver)
+        {
+            testCount++;
             GameManager.Instance?.Replay();
+        }
         replayRoutine = null;
     }
 }

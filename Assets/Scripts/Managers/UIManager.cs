@@ -36,7 +36,7 @@ public class UIManager : MonoBehaviour
 {
     static public UIManager Instance { private set; get; }
 
-    private event System.Action<bool> OnOpenUI;
+    public event System.Action<bool> OnOpenUI;
 
     [Header("InGame UI")]
     [SerializeField] private GameObject inGameUI;
@@ -61,7 +61,7 @@ public class UIManager : MonoBehaviour
     [Header("Confirm UI")]
     [SerializeField] private GameObject confirmUI;
     [SerializeField] private TextMeshProUGUI confirmText;
-    public System.Action confirmAction;
+    private System.Action confirmAction;
 
     [Header("Stat UI")]
     [SerializeField] private GameObject statUI;

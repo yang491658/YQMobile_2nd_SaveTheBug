@@ -73,7 +73,7 @@ public class AutoBackground : MonoBehaviour
 
         float localX = (worldW / spriteW) / invX;
         float localY = (worldH / spriteH) / invY;
-        transform.localScale = new Vector3(localX, localY, transform.localScale.z);
+        transform.localScale = new Vector3(localX, localY, (localX + localY) / 2f);
 
         var b = sr.bounds;
         Vector3 camCenter = new Vector3(AutoCamera.WorldRect.center.x, AutoCamera.WorldRect.center.y, cam.transform.position.z);

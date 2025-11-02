@@ -25,9 +25,9 @@ public class HandleManager : MonoBehaviour
     private Vector3 dragCurrent;
 
     [Header("Aim")]
+    [SerializeField] private bool aimVisible = false;
     [SerializeField] private Transform ring;
     [SerializeField] private Transform handle;
-    [SerializeField] private bool aimVisible = false;
 
 #if UNITY_EDITOR
     [Header("Mark")]

@@ -9,7 +9,7 @@ using UnityEditor;
 public class ItemData : EntityData
 {
     [Header("Item")]
-    public MonoScript Script;
+    public MonoScript Scr;
     public int Sort;
 
     [Header("Stat")]
@@ -56,7 +56,7 @@ public class ItemData : EntityData
                 var cls = ms != null ? ms.GetClass() : null;
                 if (cls != null && typeof(Item).IsAssignableFrom(cls) && cls.Name == Name)
                 {
-                    Script = ms;
+                    Scr = ms;
                     break;
                 }
             }
@@ -84,7 +84,7 @@ public class ItemData : EntityData
         clone.ID = this.ID;
         clone.Name = this.Name;
         clone.Image = this.Image;
-        clone.Script = this.Script;
+        clone.Scr = this.Scr;
         clone.Sort = this.Sort;
         clone.Level = this.Level;
         clone.Stat = this.Stat;

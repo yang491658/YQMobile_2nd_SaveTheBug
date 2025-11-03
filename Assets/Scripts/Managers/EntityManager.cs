@@ -121,7 +121,7 @@ public class EntityManager : MonoBehaviour
         var go = Instantiate(itemBase, pos, Quaternion.identity, itemTrans);
 
         System.Type t = null;
-        if (data.Script != null) t = data.Script.GetClass();
+        if (data.Scr != null) t = data.Scr.GetClass();
         Item i = t != null ? (Item)go.AddComponent(t) : go.AddComponent<Item>();
 
         i.SetData(data.Clone());

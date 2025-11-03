@@ -78,9 +78,18 @@ public class TestManager : MonoBehaviour
             KeyCode key = (i == 10) ? KeyCode.Alpha0 : (KeyCode)((int)KeyCode.Alpha0 + i);
             if (Input.GetKeyDown(key))
             {
-                Vector3 p = EntityManager.Instance.GetPlayer().transform.position;
-                EntityManager.Instance?.SpawnItem(i, p);
-                break;
+                if (Input.GetKey(KeyCode.LeftShift))
+                {
+                    EntityManager.Instance?.SearchItem(i).StatUp(true);
+                    break;
+                }
+                else
+                {
+                    Vector3 p = EntityManager.Instance.GetPlayer().transform.position;
+                    EntityManager.Instance?.SpawnItem(i, p);
+                    break;
+                }
+
             }
         }
 

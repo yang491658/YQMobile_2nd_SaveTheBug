@@ -92,8 +92,8 @@ public class EntityManager : MonoBehaviour
     #endregion
 
     #region 아이템
-    private ItemData SearchItem(int _id) => itemDic.TryGetValue(_id, out var _data) ? _data : null;
-    private ItemData RandomItem()
+    public ItemData SearchItem(int _id) => itemDic.TryGetValue(_id, out var _data) ? _data : null;
+    public ItemData RandomItem()
     {
         ItemData pick = null;
         int k = 0;

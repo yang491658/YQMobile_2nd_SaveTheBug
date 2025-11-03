@@ -93,17 +93,18 @@ public class ItemData : EntityData
         return clone;
     }
 
-    public void StatUp()
+    public void StatUp(bool _free = false)
     {
-        if (Level > GameManager.Instance?.GetLevel()) return;
+        if (!_free && Level > GameManager.Instance?.GetLevel()) return;
 
-        if (GameManager.Instance?.GetPoint() > 0)
+        if (_free || GameManager.Instance?.GetPoint() > 0)
         {
-            GameManager.Instance?.UsePoint();
             if (MaxStat > 0)
                 Stat = Mathf.Min(Stat + 1, MaxStat);
             else
                 Stat += 1;
+
+            if (!_free) GameManager.Instance?.UsePoint();
         }
     }
 

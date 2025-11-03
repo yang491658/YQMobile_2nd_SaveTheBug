@@ -15,7 +15,6 @@ MonoBehaviour:
   ID: 4
   Name: Missile
   Image: {fileID: 21300000, guid: 24f405e6836666549929730557e40a84, type: 3}
-  Script: {fileID: 11500000, guid: b50324bbaf6bc1346b052b15d2f7cfb7, type: 3}
   Sort: 3
   Level: 5
   Stat: 1

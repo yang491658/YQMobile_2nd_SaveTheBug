@@ -15,7 +15,6 @@ MonoBehaviour:
   ID: 7
   Name: Spiral
   Image: {fileID: 21300000, guid: 2181a56bf2c4e094cb703f81cb80f440, type: 3}
-  Script: {fileID: 11500000, guid: 91b3b257a605b294d8d2a15e10e4a3ac, type: 3}
   Sort: 6
   Level: 10
   Stat: 1

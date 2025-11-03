@@ -9,7 +9,6 @@ using UnityEditor;
 public class ItemData : EntityData
 {
     [Header("Item")]
-    public MonoScript Scr;
     public int Sort;
 
     [Header("Stat")]
@@ -46,24 +45,8 @@ public class ItemData : EntityData
         }
         else ID = 0;
 
-        if (!string.IsNullOrEmpty(Name))
-        {
-            string[] guids = AssetDatabase.FindAssets(Name + " t:MonoScript");
-            for (int i = 0; i < guids.Length; i++)
-            {
-                string path = AssetDatabase.GUIDToAssetPath(guids[i]);
-                var ms = AssetDatabase.LoadAssetAtPath<MonoScript>(path);
-                var cls = ms != null ? ms.GetClass() : null;
-                if (cls != null && typeof(Item).IsAssignableFrom(cls) && cls.Name == Name)
-                {
-                    Scr = ms;
-                    break;
-                }
-            }
-        }
-
         Level = Mathf.Max(Level, 1);
-
+        
         if (MaxStat > 0)
         {
             MaxStat = Mathf.Max(MaxStat, Stat);
@@ -84,7 +67,6 @@ public class ItemData : EntityData
         clone.ID = this.ID;
         clone.Name = this.Name;
         clone.Image = this.Image;
-        clone.Scr = this.Scr;
         clone.Sort = this.Sort;
         clone.Level = this.Level;
         clone.Stat = this.Stat;

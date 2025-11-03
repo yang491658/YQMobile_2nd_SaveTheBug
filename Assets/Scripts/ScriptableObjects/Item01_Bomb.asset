@@ -15,7 +15,6 @@ MonoBehaviour:
   ID: 1
   Name: Bomb
   Image: {fileID: 21300000, guid: 5bca15766ae391846a24f3a07cca4a14, type: 3}
-  Script: {fileID: 11500000, guid: 3c5acdf422aa9cd4e99ab327a06a9904, type: 3}
   Sort: 1
   Level: 1
   Stat: 1

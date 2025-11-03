@@ -18,6 +18,7 @@ public class EntityManager : MonoBehaviour
     [SerializeField] private GameObject itemBase;
     [SerializeField] private ItemData[] itemDatas;
     private readonly Dictionary<int, ItemData> itemDic = new Dictionary<int, ItemData>();
+    private readonly Dictionary<string, System.Type> itemTypeDic = new Dictionary<string, System.Type>();
 
     [Header("Spawn Settings")]
     [SerializeField][Min(0.05f)] private float eDelay = 5;
@@ -66,14 +67,7 @@ public class EntityManager : MonoBehaviour
         Instance = this;
         DontDestroyOnLoad(gameObject);
 
-        itemDic.Clear();
-        for (int i = 0; i < itemDatas.Length; i++)
-        {
-            var d = itemDatas[i];
-            if (d != null && !itemDic.ContainsKey(d.ID))
-                itemDic.Add(d.ID, d);
-        }
-
+        SetItemDic();
         SetEntity();
     }
 
@@ -121,9 +115,9 @@ public class EntityManager : MonoBehaviour
         var go = Instantiate(itemBase, pos, Quaternion.identity, itemTrans);
 
         System.Type t = null;
-        if (data.Scr != null) t = data.Scr.GetClass();
-        Item i = t != null ? (Item)go.AddComponent(t) : go.AddComponent<Item>();
+        itemTypeDic.TryGetValue(data.Name, out t);
 
+        Item i = t != null ? (Item)go.AddComponent(t) : go.AddComponent<Item>();
         i.SetData(data.Clone());
         items.Add(i);
 
@@ -277,6 +271,36 @@ public class EntityManager : MonoBehaviour
     #endregion
 
     #region SET
+    private void SetItemDic()
+    {
+        itemDic.Clear();
+        for (int i = 0; i < itemDatas.Length; i++)
+        {
+            var d = itemDatas[i];
+            if (d != null && !itemDic.ContainsKey(d.ID))
+                itemDic.Add(d.ID, d);
+        }
+
+        itemTypeDic.Clear();
+        var assemblies = System.AppDomain.CurrentDomain.GetAssemblies();
+        for (int ai = 0; ai < assemblies.Length; ai++)
+        {
+            System.Type[] types;
+            try { types = assemblies[ai].GetTypes(); }
+            catch { continue; }
+
+            for (int ti = 0; ti < types.Length; ti++)
+            {
+                var ty = types[ti];
+                if (ty != null && typeof(Item).IsAssignableFrom(ty) && !ty.IsAbstract)
+                {
+                    if (!itemTypeDic.ContainsKey(ty.Name))
+                        itemTypeDic.Add(ty.Name, ty);
+                }
+            }
+        }
+    }
+
     public void SetEntity()
     {
         if (inGame == null) inGame = GameObject.Find("InGame")?.transform;

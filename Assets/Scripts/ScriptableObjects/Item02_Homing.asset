@@ -15,7 +15,6 @@ MonoBehaviour:
   ID: 2
   Name: Homing
   Image: {fileID: 21300000, guid: 51d938faa7505564fae20e6fad17761c, type: 3}
-  Script: {fileID: 11500000, guid: 8f6d7616841aacd44b3586d267f674f6, type: 3}
   Sort: 6
   Level: 1
   Stat: 1

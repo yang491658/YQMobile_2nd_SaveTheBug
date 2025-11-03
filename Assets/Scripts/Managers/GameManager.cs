@@ -1,6 +1,9 @@
-﻿using System.Runtime.InteropServices;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.SceneManagement;
+
+#if UNITY_WEBGL && !UNITY_EDITOR
+using System.Runtime.InteropServices;
+#endif
 
 public class GameManager : MonoBehaviour
 {
@@ -28,8 +31,10 @@ public class GameManager : MonoBehaviour
     public bool IsPaused { private set; get; } = false;
     public bool IsGameOver { private set; get; } = false;
 
-    [DllImport("__Internal")] static extern private void GameOverReact();
-    [DllImport("__Internal")] static extern private void ReplayReact();
+#if UNITY_WEBGL && !UNITY_EDITOR
+    [DllImport("__Internal")] private static extern void GameOverReact();
+    [DllImport("__Internal")] private static extern void ReplayReact();
+#endif
 
     private void Awake()
     {

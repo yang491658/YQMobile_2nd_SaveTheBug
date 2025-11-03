@@ -4,19 +4,18 @@ public class Item : Entity
 {
     public bool isActive { private set; get; } = false;
 
-    private Collider2D backCol;
-    private float timer = 0f;
-
     [Header("Stat")]
-    [SerializeField] private float speed = 3.5f;
+    [SerializeField] private float iSpeed = 3.5f;
     [SerializeField] protected int bonus;
-    [SerializeField] private float delay = 15f;
+    [SerializeField] private float bgDuration = 15f;
+    private float bgTimer = 0f;
+    private Collider2D bgCol;
 
     protected override void Awake()
     {
         base.Awake();
 
-        backCol = transform.Find("Background")?.GetComponent<Collider2D>();
+        bgCol = transform.Find("Background")?.GetComponent<Collider2D>();
     }
 
     protected override void Start()
@@ -27,15 +26,15 @@ public class Item : Entity
         {
             float angle = Random.Range(-15f, 15f);
             Vector3 dir = Quaternion.Euler(0f, 0f, angle) * (-transform.position);
-            Move(dir.normalized * speed);
+            Move(dir.normalized * iSpeed);
         }
     }
 
     protected override void Update()
     {
-        timer += Time.deltaTime;
-        if (timer > delay && backCol != null)
-            backCol.isTrigger = true;
+        bgTimer += Time.deltaTime;
+        if (bgTimer > bgDuration && bgCol != null)
+            bgCol.isTrigger = true;
     }
 
     private void OnTriggerStay2D(Collider2D _collision)
@@ -61,7 +60,7 @@ public class Item : Entity
         col.isTrigger = true;
         isActive = true;
 
-        if (backCol != null) Destroy(backCol.gameObject);
+        if (bgCol != null) Destroy(bgCol.gameObject);
     }
 
     #region SET

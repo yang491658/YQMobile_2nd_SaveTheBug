@@ -208,7 +208,9 @@ public class EntityManager : MonoBehaviour
             cnt = 0;
             while (iTimer >= iDelay && cnt++ < 4)
             {
-                var item = SpawnItem();
+                // TODO 임시
+                //var item = SpawnItem();
+                var item = SpawnItem(0, player.transform.position);
                 if (item == null)
                 {
                     iTimer = Mathf.Min(iTimer, iDelay);

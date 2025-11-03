@@ -43,7 +43,7 @@ public class Player : Entity
 
     private void OnTriggerEnter2D(Collider2D _collision)
     {
-        // TODO 테스트용 무적 모드
+        // TODO 임시
         //if (_collision.CompareTag("Enemy"))
         //    GameManager.Instance?.GameOver();
 

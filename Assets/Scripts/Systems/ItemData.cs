@@ -97,7 +97,7 @@ public class ItemData : EntityData
     {
         if (Level > GameManager.Instance?.GetLevel()) return;
 
-        if (GameManager.Instance?.GetStatPoint() > 0)
+        if (GameManager.Instance?.GetPoint() > 0)
         {
             GameManager.Instance?.UsePoint();
             if (MaxStat > 0)

@@ -221,6 +221,6 @@ public class GameManager : MonoBehaviour
     public int GetCurrentExp() => currentExp;
     public int GetNextExp() => nextExp;
     public int GetLevel() => level;
-    public int GetStatPoint() => point;
+    public int GetPoint() => point;
     #endregion
 }

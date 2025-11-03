@@ -17,6 +17,6 @@ MonoBehaviour:
   Image: {fileID: 21300000, guid: d372d81d5deb7564ead8162db7bc6017, type: 3}
   Script: {fileID: 11500000, guid: b3bc250ba29a44845be2bcaa844b6c90, type: 3}
   Sort: 7
-  Level: 41
+  Level: 20
   Stat: 1
-  MaxStat: 10
+  MaxStat: 7

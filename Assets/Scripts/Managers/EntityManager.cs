@@ -132,8 +132,14 @@ public class EntityManager : MonoBehaviour
 
     public void ResetItems(bool _refund)
     {
-        foreach (var item in itemDatas)
-            item.ResetStat(_refund);
+        System.Action act = () =>
+        {
+            foreach (var item in itemDatas)
+                item.ResetStat(_refund);
+        };
+
+        if (_refund && ADManager.Instance != null) ADManager.Instance.ShowReward(act);
+        else act();
     }
     #endregion
 

@@ -31,7 +31,7 @@ public class Entity : MonoBehaviour
     #endregion
 
     #region SET
-    public void SetData(EntityData _data)
+    public virtual void SetData(EntityData _data)
     {
         data = _data;
         gameObject.name = data.Name;

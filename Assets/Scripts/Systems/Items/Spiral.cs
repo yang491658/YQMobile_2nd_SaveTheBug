@@ -36,7 +36,7 @@ public class Spiral : Item
         if (isOrigin)
         {
             transform.position = player.transform.position;
-            sr.color = new Color(1f, 1f, 1f, 0f);
+            sr.color = new Color32(255, 255, 255, 0);
             StartCoroutine(CopySelf());
         }
         else

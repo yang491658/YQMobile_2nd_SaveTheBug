@@ -4,11 +4,13 @@ public class Item : Entity
 {
     public bool isActive { private set; get; } = false;
 
-    private float speed = 3.5f;
-
-    private float timer = 0f;
-    private float delay = 15f;
     private Collider2D backCol;
+    private float timer = 0f;
+
+    [Header("Stat")]
+    [SerializeField] private float speed = 3.5f;
+    [SerializeField] protected int stat;
+    [SerializeField] private float delay = 15f;
 
     protected override void Awake()
     {
@@ -61,4 +63,13 @@ public class Item : Entity
 
         if (backCol != null) Destroy(backCol.gameObject);
     }
+
+    #region SET
+    public override void SetData(EntityData _data)
+    {
+        base.SetData(_data);
+
+        stat = ((ItemData)_data).Stat;
+    }
+    #endregion
 }

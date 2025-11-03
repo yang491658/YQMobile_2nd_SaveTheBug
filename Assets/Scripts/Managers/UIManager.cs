@@ -163,13 +163,13 @@ public class UIManager : MonoBehaviour
 
     private void Start()
     {
-        prevLevel = GameManager.Instance.GetLevel();
-        prevPoint = GameManager.Instance.GetPoint();
-
         UpdateScore(GameManager.Instance.GetScore());
         UpdateExp(GameManager.Instance.GetCurrentExp());
         UpdateLevel(GameManager.Instance.GetLevel());
         UpdatePoint(GameManager.Instance.GetPoint());
+
+        prevLevel = GameManager.Instance.GetLevel();
+        prevPoint = GameManager.Instance.GetPoint();
     }
 
     private void Update()
@@ -178,6 +178,7 @@ public class UIManager : MonoBehaviour
 
         playTime += Time.deltaTime;
         UpdatePlayTime();
+        UpdateLevelText();
     }
 
     private void OnEnable()
@@ -247,7 +248,6 @@ public class UIManager : MonoBehaviour
 
             statItems[i].go.name = item.Name;
             statItems[i].image.sprite = item.Image;
-            statItems[i].stat.text = item.Stat.ToString();
 
             UpdateStat(i, item);
 
@@ -256,6 +256,8 @@ public class UIManager : MonoBehaviour
             statItems[idx].upBtn.onClick.AddListener(SoundManager.Instance.Button);
             statItems[idx].upBtn.onClick.AddListener(() => OnClickStatUp(idx));
         }
+
+        levelText.text = GameManager.Instance.GetLevel().ToString("'LV.'00");
     }
 
     public void OpenConfirm(bool _on, string _text = null, System.Action _action = null, bool _pass = false)
@@ -330,14 +332,51 @@ public class UIManager : MonoBehaviour
 
     public void UpdateLevel(int _level)
     {
-        string l = _level.ToString("'LV.'00");
-        levelText.text = l;
+        bool newItem = false;
+        var datas = EntityManager.Instance?.GetDatas();
+        if (datas != null)
+        {
+            for (int i = 0; i < datas.Count; i++)
+            {
+                var d = datas[i];
+                if (d != null && d.Level == _level && d.Level != 1)
+                {
+                    newItem = true;
+                    break;
+                }
+            }
+        }
+
+        if (newItem)
+            levelText.text = "NEW";
+        else
+            levelText.text = _level.ToString("'LV.'00");
 
         if (statUI.activeSelf)
-        {
-            var datas = EntityManager.Instance?.GetDatas();
             for (int i = 0; i < statItems.Count; i++)
                 UpdateStat(i, datas[i]);
+
+        prevLevel = _level;
+    }
+
+    private void UpdateLevelText()
+    {
+        float s = Mathf.PingPong(playTime * 4f, 1f);
+
+        if (levelText.text == "NEW")
+        {
+            Color c = Color.red;
+            levelText.color = Color.Lerp(c, Color.white, s);
+        }
+        else if (levelText.text == "UP")
+        {
+            Color c = Color.blue;
+            levelText.color = Color.Lerp(c, Color.white, s);
+        }
+        else
+        {
+            Color c = Color.white;
+            levelText.color = c;
         }
     }
 
@@ -352,6 +391,13 @@ public class UIManager : MonoBehaviour
             for (int i = 0; i < statItems.Count; i++)
                 UpdateStat(i, datas[i]);
         }
+
+        bool pointUp = (_point == prevPoint + 1);
+
+        if (pointUp && levelText.text != "NEW")
+            levelText.text = "UP";
+
+        prevPoint = _point;
     }
 
     public void UpdateVolume(SoundType _type, float _volume)
@@ -395,9 +441,15 @@ public class UIManager : MonoBehaviour
         statItems[_index].stat.text = _item.Stat.ToString();
 
         if (_item.MaxStat > 0 && _item.Stat >= _item.MaxStat)
+        {
+            statItems[_index].stat.text = "MAX";
             statItems[_index].stat.color = Color.blue;
+        }
         else
+        {
+            statItems[_index].stat.text = _item.Stat.ToString();
             statItems[_index].stat.color = Color.white;
+        }
 
         bool canUp =
             (GameManager.Instance?.GetLevel() >= _item.Level) &&
@@ -405,7 +457,7 @@ public class UIManager : MonoBehaviour
             (_item.MaxStat == 0 || _item.Stat < _item.MaxStat);
 
         statItems[_index].upBtn.interactable = canUp;
-        statItems[_index].upBtnText.color = canUp ? Color.blue : new Color(0.5f, 0.5f, 0.5f, 0.5f);
+        statItems[_index].upBtnText.color = canUp ? Color.blue : new Color32(200, 200, 200, 200);
 
         statItems[_index].go.SetActive(_item.Level <= GameManager.Instance?.GetLevel());
     }

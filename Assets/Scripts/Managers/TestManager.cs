@@ -80,7 +80,8 @@ public class TestManager : MonoBehaviour
             {
                 if (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift))
                 {
-                    EntityManager.Instance?.SearchItem(i).StatUp(true);
+                    GameManager.Instance?.LevelUp();
+                    EntityManager.Instance?.SearchItem(i).StatUp();
                     break;
                 }
                 else

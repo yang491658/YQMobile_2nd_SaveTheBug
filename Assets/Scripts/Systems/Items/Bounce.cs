@@ -16,8 +16,10 @@ public class Bounce : Item
     [SerializeField] private float minSpeed = 5f;
     private Vector3 direction = Vector3.up;
 
-    [SerializeField] private float duration = 15f;
-    [SerializeField] private int bounce = 5;
+    [SerializeField] private int bounce = 3;
+    [SerializeField] private int bounceBonus = 1;
+    [SerializeField] private float duration = 10f;
+    [SerializeField] private float durationBonus = 10f;
     #endregion
 
     protected override void Update()
@@ -49,10 +51,11 @@ public class Bounce : Item
 
         transform.localScale *= scale;
         player = EntityManager.Instance?.GetPlayer();
+        bounce += bounceBonus * bonus;
 
         SetDirection(player.transform.up);
         Fire();
-        EntityManager.Instance?.RemoveItem(this, duration);
+        EntityManager.Instance?.RemoveItem(this, duration + durationBonus * bonus);
     }
 
     private void Fire()

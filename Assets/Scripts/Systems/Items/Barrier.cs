@@ -13,6 +13,7 @@ public class Barrier : Item
     private Player player;
 
     [SerializeField] private float duration = 10f;
+    [SerializeField] private float durationBonus = 10f;
     #endregion
 
     protected override void Update()
@@ -39,6 +40,6 @@ public class Barrier : Item
         player = EntityManager.Instance?.GetPlayer();
 
         Stop();
-        EntityManager.Instance?.RemoveItem(this, duration);
+        EntityManager.Instance?.RemoveItem(this, duration + durationBonus * bonus);
     }
 }

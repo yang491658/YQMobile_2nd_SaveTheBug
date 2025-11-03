@@ -19,13 +19,15 @@ public class Homing : Item
     private bool isHoming = false;
 
     [SerializeField] private int count = 3;
-    [SerializeField] private float angle = 90f;
+    [SerializeField] private float countBonus = 0.4f;
+    [SerializeField] private float angle = 60f;
     [SerializeField] private float speed = 10f;
     private Vector3 direction = Vector3.up;
 
     private Vector3 basePos;
     [SerializeField] private float distance = 5f;
-    [SerializeField] private float duration = 3.5f;
+    [SerializeField] private float duration = 3f;
+    [SerializeField] private float durationBonus = 0.5f;
     #endregion
 
     protected override void Update()
@@ -48,7 +50,7 @@ public class Homing : Item
                 isMoving = false;
 
                 Stop();
-                EntityManager.Instance?.RemoveItem(this, duration);
+                EntityManager.Instance?.RemoveItem(this, duration + durationBonus * bonus);
             }
         }
     }
@@ -72,12 +74,13 @@ public class Homing : Item
     {
         player = EntityManager.Instance?.GetPlayer();
 
+        int totalCount = count + (int)(countBonus * bonus);
         float start = -angle * 0.5f;
-        float step = (count - 1) > 0 ? angle / (count - 1) : 0f;
+        float step = (totalCount - 1) > 0 ? angle / (totalCount - 1) : 0f;
 
         Vector3 baseDir = SetRotate(direction, start);
 
-        for (int i = 0; i < count; i++)
+        for (int i = 0; i < totalCount; i++)
         {
             float deg = start + step * i;
             Vector3 dir = SetRotate(baseDir, deg - start);

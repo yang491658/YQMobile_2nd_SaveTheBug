@@ -10,6 +10,7 @@ public class Missile : Item
     #region 능력
     [Header("Ability")]
     [SerializeField] private float speed = 10f;
+    [SerializeField] private float speedBobus = 1f;
     #endregion
 
     public override void UseItem()
@@ -22,5 +23,5 @@ public class Missile : Item
     }
 
     private void Fire()
-        => Move(Vector3.up * speed);
+        => Move(Vector3.up * (speed - speedBobus * bonus));
 }

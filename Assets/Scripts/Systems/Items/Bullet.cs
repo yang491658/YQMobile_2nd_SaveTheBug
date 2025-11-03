@@ -14,6 +14,7 @@ public class Bullet : Item
 
     private bool isOrigin = true;
     [SerializeField] private int count = 10;
+    [SerializeField] private int countBonus = 2;
     [SerializeField] private float speedRatio = 3f;
     [SerializeField] private float minSpeed = 1f;
     private Vector3 direction = Vector3.up;
@@ -47,7 +48,7 @@ public class Bullet : Item
 
     private IEnumerator CopySelf()
     {
-        for (int i = 0; i < count; i++)
+        for (int i = 0; i < count + countBonus * bonus; i++)
         {
             Bullet copy = EntityManager.Instance?.SpawnItem(data.ID, player.transform.position)
                 .GetComponent<Bullet>();

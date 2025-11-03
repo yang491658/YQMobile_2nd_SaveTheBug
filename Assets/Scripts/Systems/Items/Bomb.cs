@@ -11,6 +11,7 @@ public class Bomb : Item
     #region 능력
     [Header("Ability")]
     [SerializeField] private float duration = 10f;
+    [SerializeField] private float durationBonus = 5f;
     #endregion
 
     protected override void Update()
@@ -29,6 +30,6 @@ public class Bomb : Item
         transform.localScale *= scale;
 
         Stop();
-        EntityManager.Instance?.RemoveItem(this, duration);
+        EntityManager.Instance?.RemoveItem(this, duration + durationBonus * bonus);
     }
 }

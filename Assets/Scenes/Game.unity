@@ -5258,6 +5258,7 @@ MonoBehaviour:
   nextExp: 0
   expUp: 10
   level: 0
+  maxLevel: 40
   point: 0
 --- !u!4 &892690366
 Transform:

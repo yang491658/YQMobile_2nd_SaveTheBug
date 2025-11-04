@@ -253,7 +253,10 @@ public class UIManager : MonoBehaviour
             statItems[idx].upBtn.onClick.AddListener(() => OnClickStatUp(idx));
         }
 
-        levelText.text = GameManager.Instance.GetLevel().ToString("'LV.'00");
+        if (GameManager.Instance.IsMaxLevel())
+            levelText.text = "MAX";
+        else
+            levelText.text = GameManager.Instance.GetLevel().ToString("'LV.'00");
     }
 
     public void OpenConfirm(bool _on, string _text = null, System.Action _action = null, bool _pass = false)
@@ -338,11 +341,18 @@ public class UIManager : MonoBehaviour
             }
         }
 
+        bool isMax = GameManager.Instance.IsMaxLevel();
+
         string t = levelText.text;
         if (newItem && t != "NEW")
             levelText.text = "NEW";
         else if (t != "NEW" && t != "UP")
-            levelText.text = _level.ToString("'LV.'00");
+        {
+            if (isMax)
+                levelText.text = "MAX";
+            else
+                levelText.text = _level.ToString("'LV.'00");
+        }
 
         if (statUI.activeSelf)
             for (int i = 0; i < statItems.Count; i++)
@@ -364,6 +374,11 @@ public class UIManager : MonoBehaviour
         {
             Color c = Color.blue;
             levelText.color = Color.Lerp(c, Color.white, s);
+        }
+        else if (levelText.text == "MAX")
+        {
+            Color c = Color.green;
+            levelText.color = c;
         }
         else
         {
@@ -433,7 +448,7 @@ public class UIManager : MonoBehaviour
         if (_item.MaxStat > 0 && _item.Stat >= _item.MaxStat)
         {
             statItems[_index].stat.text = "MAX";
-            statItems[_index].stat.color = Color.blue;
+            statItems[_index].stat.color = Color.green;
         }
         else
         {

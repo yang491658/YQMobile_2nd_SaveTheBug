@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.SceneManagement;
+using static UnityEngine.GraphicsBuffer;
 
 #if UNITY_WEBGL && !UNITY_EDITOR
 using System.Runtime.InteropServices;
@@ -22,6 +23,7 @@ public class GameManager : MonoBehaviour
 
     [Header("Level")]
     [SerializeField][Min(0)] private int level = 0;
+    [SerializeField][Min(1)] private int maxLevel = 40;
     public event System.Action<int> OnChangeLevel;
 
     [Header("Point")]
@@ -130,14 +132,22 @@ public class GameManager : MonoBehaviour
     #region 레벨
     public void LevelUp(int _level = 1)
     {
-        level += _level;
+        if (IsMaxLevel()) return;
+
+        int prev = level;
+        level = Mathf.Min(level + _level, maxLevel);
         OnChangeLevel?.Invoke(level);
 
-        if (nextExp <= 0) nextExp = expUp;
-        else nextExp += expUp;
+        int up = level - prev;
+        if (!IsMaxLevel())
+        {
+            if (nextExp <= 0) nextExp = expUp & level;
+            else nextExp += expUp * up;
+        }
+        else nextExp = 0;
         OnChangeExp?.Invoke(currentExp);
 
-        PointUp();
+        if (up > 0) PointUp(up);
     }
 
     public void ResetLevel()
@@ -226,6 +236,7 @@ public class GameManager : MonoBehaviour
     public int GetCurrentExp() => currentExp;
     public int GetNextExp() => nextExp;
     public int GetLevel() => level;
+    public bool IsMaxLevel() => level >= maxLevel;
     public int GetPoint() => point;
     #endregion
 }

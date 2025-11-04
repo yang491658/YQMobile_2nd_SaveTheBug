@@ -47,7 +47,7 @@ public class GameManager : MonoBehaviour
     {
         minSpeed = Mathf.Clamp(minSpeed, 0.05f, 1f);
         maxSpeed = Mathf.Clamp(maxSpeed, 1f, 100f);
-        if (minSpeed < maxSpeed) minSpeed = maxSpeed;
+        if (minSpeed > maxSpeed) minSpeed = maxSpeed;
     }
 #endif
 

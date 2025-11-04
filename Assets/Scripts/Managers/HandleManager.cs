@@ -52,7 +52,7 @@ public class HandleManager : MonoBehaviour
     {
         minSens = Mathf.Clamp(minSens, 0.05f, 1f);
         maxSens = Mathf.Clamp(maxSens, 1f, 10f);
-        if (minSens < maxSens) minSens = maxSens;
+        if (minSens > maxSens) minSens = maxSens;
 
         if (ring == null) ring = GameObject.Find("AimRing")?.transform;
         if (handle == null) handle = GameObject.Find("AimCircle")?.transform;

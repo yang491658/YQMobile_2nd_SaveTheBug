@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
 using UnityEngine.SceneManagement;
-using static UnityEngine.GraphicsBuffer;
 
 #if UNITY_WEBGL && !UNITY_EDITOR
 using System.Runtime.InteropServices;
@@ -9,6 +8,11 @@ using System.Runtime.InteropServices;
 public class GameManager : MonoBehaviour
 {
     static public GameManager Instance { private set; get; }
+
+    [Header("Speed")]
+    [SerializeField][Min(0.5f)] private float speed = 1f;
+    [SerializeField][Min(0.5f)] private float minSpeed = 0.5f;
+    [SerializeField][Min(0.5f)] private float maxSpeed = 3f;
 
     [Header("Score")]
     [SerializeField] private int score = 0;
@@ -141,7 +145,7 @@ public class GameManager : MonoBehaviour
         int up = level - prev;
         if (!IsMaxLevel())
         {
-            if (nextExp <= 0) nextExp = expUp & level;
+            if (nextExp <= 0) nextExp = expUp * level;
             else nextExp += expUp * up;
         }
         else nextExp = 0;
@@ -186,7 +190,7 @@ public class GameManager : MonoBehaviour
         if (IsPaused == _pause) return;
 
         IsPaused = _pause;
-        Time.timeScale = _pause ? 0f : 1f;
+        Time.timeScale = _pause ? 0f : speed;
     }
 
     private void ActWithReward(System.Action _act)
@@ -231,7 +235,18 @@ public class GameManager : MonoBehaviour
     }
     #endregion
 
+    #region SET
+    public void SetGameSpeed(float _speed)
+    {
+        speed = Mathf.Clamp(_speed, minSpeed, maxSpeed);
+        if (!IsPaused) Time.timeScale = speed;
+    }
+    #endregion
+
     #region GET
+    public float GetSpeed() => speed;
+    public float GetMinSpeed() => minSpeed;
+    public float GetMaxSpeed() => maxSpeed;
     public int GetScore() => score;
     public int GetCurrentExp() => currentExp;
     public int GetNextExp() => nextExp;

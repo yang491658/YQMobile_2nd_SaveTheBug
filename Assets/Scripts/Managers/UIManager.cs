@@ -49,6 +49,8 @@ public class UIManager : MonoBehaviour
     [Header("Setting UI")]
     [SerializeField] private GameObject settingUI;
     [SerializeField] private TextMeshProUGUI settingScoreText;
+    [SerializeField] private Slider speedSlider;
+    [SerializeField] private Slider sensSlider;
 
     [Header("Sound UI")]
     [SerializeField] private Slider bgmSlider;
@@ -62,7 +64,6 @@ public class UIManager : MonoBehaviour
     [SerializeField] private GameObject statUI;
     [SerializeField] private TextMeshProUGUI statPointText;
     [SerializeField][NonReorderable] private List<ItemSlot> statItems = new List<ItemSlot>();
-    private int prevLevel;
     private int prevPoint;
 
     [Header("Confirm UI")]
@@ -92,6 +93,10 @@ public class UIManager : MonoBehaviour
             settingUI = GameObject.Find("SettingUI");
         if (settingScoreText == null)
             settingScoreText = GameObject.Find("SettingUI/Box/Score/ScoreText")?.GetComponent<TextMeshProUGUI>();
+        if (speedSlider == null)
+            speedSlider = GameObject.Find("Speed/SpeedSlider")?.GetComponent<Slider>();
+        if (sensSlider == null)
+            sensSlider = GameObject.Find("Sens/SensSlider")?.GetComponent<Slider>();
 
         if (bgmSlider == null)
             bgmSlider = GameObject.Find("BGM/BgmSlider")?.GetComponent<Slider>();
@@ -168,15 +173,14 @@ public class UIManager : MonoBehaviour
         UpdateLevel(GameManager.Instance.GetLevel());
         UpdatePoint(GameManager.Instance.GetPoint());
 
-        prevLevel = GameManager.Instance.GetLevel();
         prevPoint = GameManager.Instance.GetPoint();
     }
 
     private void Update()
     {
-        if (GameManager.Instance.IsPaused || GameManager.Instance.IsGameOver) return;
+        if (GameManager.Instance.IsGameOver) return;
 
-        playTime += Time.deltaTime;
+        playTime += Time.unscaledDeltaTime;
         UpdatePlayTime();
         UpdateLevelText();
     }
@@ -187,6 +191,18 @@ public class UIManager : MonoBehaviour
         GameManager.Instance.OnChangeExp += UpdateExp;
         GameManager.Instance.OnChangeLevel += UpdateLevel;
         GameManager.Instance.OnChangePoint += UpdatePoint;
+
+        speedSlider.minValue = GameManager.Instance.GetMinSpeed();
+        speedSlider.maxValue = GameManager.Instance.GetMaxSpeed();
+        speedSlider.wholeNumbers = false;
+        speedSlider.value = GameManager.Instance.GetSpeed();
+        speedSlider.onValueChanged.AddListener(GameManager.Instance.SetGameSpeed);
+
+        sensSlider.minValue = HandleManager.Instance.GetMinSens();
+        sensSlider.maxValue = HandleManager.Instance.GetMaxSens();
+        sensSlider.wholeNumbers = false;
+        sensSlider.value = HandleManager.Instance.GetSens();
+        sensSlider.onValueChanged.AddListener(HandleManager.Instance.SetSens);
 
         SoundManager.Instance.OnChangeVolume += UpdateVolume;
         bgmSlider.value = SoundManager.Instance.GetBGMVolume();
@@ -203,6 +219,8 @@ public class UIManager : MonoBehaviour
         GameManager.Instance.OnChangeExp -= UpdateExp;
         GameManager.Instance.OnChangeLevel -= UpdateLevel;
         GameManager.Instance.OnChangePoint -= UpdatePoint;
+        speedSlider.onValueChanged.RemoveListener(GameManager.Instance.SetGameSpeed);
+        sensSlider.onValueChanged.RemoveListener(HandleManager.Instance.SetSens);
 
         SoundManager.Instance.OnChangeVolume -= UpdateVolume;
         bgmSlider.onValueChanged.RemoveListener(SoundManager.Instance.SetBGMVolume);
@@ -357,8 +375,6 @@ public class UIManager : MonoBehaviour
         if (statUI.activeSelf)
             for (int i = 0; i < statItems.Count; i++)
                 UpdateStat(i, datas[i]);
-
-        prevLevel = _level;
     }
 
     public void UpdateLevelText()

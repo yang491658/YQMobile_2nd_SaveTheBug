@@ -25,6 +25,11 @@ public class HandleManager : MonoBehaviour
     private Vector3 dragCurrent;
     private bool isOverUI;
 
+    [Header("Sensitivity")]
+    [SerializeField][Min(0.5f)] private float sens = 1f;
+    [SerializeField][Min(0.5f)] private float minSens = 0.5f;
+    [SerializeField][Min(0.5f)] private float maxSens = 3f;
+
     [Header("Aim")]
     [SerializeField] private bool aimVisible = false;
     [SerializeField] private Transform ring;
@@ -256,7 +261,7 @@ public class HandleManager : MonoBehaviour
             handle.position = _current;
         }
 
-        player.Move(_current - _start);
+        player.Move((_current - _start) * sens);
     }
 
     private void OnDragEnd(Vector3 _start, Vector3 _end)
@@ -343,5 +348,13 @@ public class HandleManager : MonoBehaviour
         ring.gameObject.SetActive(false);
         handle.gameObject.SetActive(false);
     }
+    public void SetSens(float _value)
+        => sens = Mathf.Clamp(_value, minSens, maxSens);
+    #endregion
+
+    #region GET
+    public float GetSens() => sens;
+    public float GetMinSens() => minSens;
+    public float GetMaxSens() => maxSens;
     #endregion
 }

@@ -191,7 +191,6 @@ public class UIManager : MonoBehaviour
         GameManager.Instance.OnChangeExp += UpdateExp;
         GameManager.Instance.OnChangeLevel += UpdateLevel;
         GameManager.Instance.OnChangePoint += UpdatePoint;
-
         speedSlider.minValue = GameManager.Instance.GetMinSpeed();
         speedSlider.maxValue = GameManager.Instance.GetMaxSpeed();
         speedSlider.wholeNumbers = false;

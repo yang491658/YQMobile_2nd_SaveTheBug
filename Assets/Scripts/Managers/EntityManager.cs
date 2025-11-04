@@ -7,6 +7,10 @@ using UnityEngine;
 using UnityEditor;
 #endif
 
+#if UNITY_WEBGL && !UNITY_EDITOR
+using System.Runtime.InteropServices;
+#endif
+
 public class EntityManager : MonoBehaviour
 {
     static public EntityManager Instance { private set; get; }
@@ -36,6 +40,10 @@ public class EntityManager : MonoBehaviour
     [SerializeField] private List<Enemy> enemies = new List<Enemy>();
     [SerializeField] private Transform itemTrans;
     [SerializeField] private List<Item> items = new List<Item>();
+
+#if UNITY_WEBGL && !UNITY_EDITOR
+    [DllImport("__Internal")] private static extern void ResetReact();
+#endif
 
 #if UNITY_EDITOR
     private void OnValidate()
@@ -124,16 +132,24 @@ public class EntityManager : MonoBehaviour
         return i;
     }
 
-    public void ResetItems(bool _refund)
+    private void ActWithReward(System.Action _act)
     {
-        System.Action act = () =>
-        {
-            foreach (var item in itemDatas)
-                item.ResetStat(_refund);
-        };
+        if (ADManager.Instance != null) ADManager.Instance?.ShowReward(_act);
+        else _act?.Invoke();
+    }
 
-        if (_refund && ADManager.Instance != null) ADManager.Instance.ShowReward(act);
-        else act();
+    public void Reset()
+    {
+#if UNITY_WEBGL && !UNITY_EDITOR
+        ResetReact();
+#else
+        ActWithReward(ResetItems);
+#endif
+    }
+    private void ResetItems()
+    {
+        foreach (var item in itemDatas)
+            item.ResetStat(true);
     }
     #endregion
 
@@ -223,12 +239,6 @@ public class EntityManager : MonoBehaviour
             yield return null;
         }
     }
-
-    public void ResetDelay()
-    {
-        eDelay = eDelayBase;
-        iDelay = iDelayBase;
-    }
     #endregion
 
     #region 제거
@@ -314,6 +324,15 @@ public class EntityManager : MonoBehaviour
         player.transform.localPosition = c;
         eDelayBase = eDelay;
         iDelayBase = iDelay;
+    }
+
+    public void ResetEntity()
+    {
+        eDelay = eDelayBase;
+        iDelay = iDelayBase;
+
+        foreach (var item in itemDatas)
+            item.ResetStat(false);
     }
     #endregion
 

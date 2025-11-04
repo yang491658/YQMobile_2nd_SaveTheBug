@@ -97,8 +97,7 @@ public class GameManager : MonoBehaviour
 
         SoundManager.Instance?.PlayBGM("Default");
 
-        EntityManager.Instance?.ResetItems(false);
-        EntityManager.Instance?.ResetDelay();
+        EntityManager.Instance?.ResetEntity();
         EntityManager.Instance?.SetEntity();
         EntityManager.Instance?.ToggleSpawn(true);
 

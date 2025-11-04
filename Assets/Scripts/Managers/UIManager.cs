@@ -493,7 +493,7 @@ public class UIManager : MonoBehaviour
 
     public void OnClickStat() => OpenStat(true);
     public void OnClickStatUp(int _index) => EntityManager.Instance?.GetDatas()[_index].StatUp();
-    public void OnClickReset() => OpenConfirm(true, "초기화", () => EntityManager.Instance.ResetItems(true));
+    public void OnClickReset() => OpenConfirm(true, "초기화", EntityManager.Instance.Reset);
 
     public void OnClickReplay() => OpenConfirm(true, "다시", GameManager.Instance.Replay);
     public void OnClickQuit() => OpenConfirm(true, "종료", GameManager.Instance.Quit);

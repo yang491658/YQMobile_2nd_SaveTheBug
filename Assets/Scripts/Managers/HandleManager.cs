@@ -26,9 +26,9 @@ public class HandleManager : MonoBehaviour
     private bool isOverUI;
 
     [Header("Sensitivity")]
-    [SerializeField][Min(0.5f)] private float sens = 1f;
-    [SerializeField][Min(0.5f)] private float minSens = 0.5f;
-    [SerializeField][Min(0.5f)] private float maxSens = 3f;
+    [SerializeField] private float sens = 1f;
+    [SerializeField] private float minSens = 0.5f;
+    [SerializeField] private float maxSens = 3f;
 
     [Header("Aim")]
     [SerializeField] private bool aimVisible = false;
@@ -50,6 +50,10 @@ public class HandleManager : MonoBehaviour
 #if UNITY_EDITOR
     private void OnValidate()
     {
+        minSens = Mathf.Clamp(minSens, 0.05f, 1f);
+        maxSens = Mathf.Clamp(maxSens, 1f, 10f);
+        if (minSens < maxSens) minSens = maxSens;
+
         if (ring == null) ring = GameObject.Find("AimRing")?.transform;
         if (handle == null) handle = GameObject.Find("AimCircle")?.transform;
     }

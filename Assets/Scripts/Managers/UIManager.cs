@@ -196,7 +196,7 @@ public class UIManager : MonoBehaviour
         speedSlider.maxValue = GameManager.Instance.GetMaxSpeed();
         speedSlider.wholeNumbers = false;
         speedSlider.value = GameManager.Instance.GetSpeed();
-        speedSlider.onValueChanged.AddListener(GameManager.Instance.SetGameSpeed);
+        speedSlider.onValueChanged.AddListener(GameManager.Instance.SetSpeed);
 
         sensSlider.minValue = HandleManager.Instance.GetMinSens();
         sensSlider.maxValue = HandleManager.Instance.GetMaxSens();
@@ -219,7 +219,7 @@ public class UIManager : MonoBehaviour
         GameManager.Instance.OnChangeExp -= UpdateExp;
         GameManager.Instance.OnChangeLevel -= UpdateLevel;
         GameManager.Instance.OnChangePoint -= UpdatePoint;
-        speedSlider.onValueChanged.RemoveListener(GameManager.Instance.SetGameSpeed);
+        speedSlider.onValueChanged.RemoveListener(GameManager.Instance.SetSpeed);
         sensSlider.onValueChanged.RemoveListener(HandleManager.Instance.SetSens);
 
         SoundManager.Instance.OnChangeVolume -= UpdateVolume;

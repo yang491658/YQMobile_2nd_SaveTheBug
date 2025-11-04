@@ -10,9 +10,9 @@ public class GameManager : MonoBehaviour
     static public GameManager Instance { private set; get; }
 
     [Header("Speed")]
-    [SerializeField][Min(0.5f)] private float speed = 1f;
-    [SerializeField][Min(0.5f)] private float minSpeed = 0.5f;
-    [SerializeField][Min(0.5f)] private float maxSpeed = 3f;
+    [SerializeField] private float speed = 1f;
+    [SerializeField] private float minSpeed = 0.5f;
+    [SerializeField] private float maxSpeed = 3f;
 
     [Header("Score")]
     [SerializeField] private int score = 0;
@@ -40,6 +40,15 @@ public class GameManager : MonoBehaviour
 #if UNITY_WEBGL && !UNITY_EDITOR
     [DllImport("__Internal")] private static extern void GameOverReact();
     [DllImport("__Internal")] private static extern void ReplayReact();
+#endif
+
+#if UNITY_EDITOR
+    private void OnValidate()
+    {
+        minSpeed = Mathf.Clamp(minSpeed, 0.05f, 1f);
+        maxSpeed = Mathf.Clamp(maxSpeed, 1f, 100f);
+        if (minSpeed < maxSpeed) minSpeed = maxSpeed;
+    }
 #endif
 
     private void Awake()
@@ -236,7 +245,7 @@ public class GameManager : MonoBehaviour
     #endregion
 
     #region SET
-    public void SetGameSpeed(float _speed)
+    public void SetSpeed(float _speed)
     {
         speed = Mathf.Clamp(_speed, minSpeed, maxSpeed);
         if (!IsPaused) Time.timeScale = speed;

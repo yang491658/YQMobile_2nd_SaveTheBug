@@ -8,7 +8,9 @@ public class ADManager : MonoBehaviour
 
     [SerializeField][Min(0)] private float delay = 0.5f;
 
+    private Canvas rootCanvas;
     private BannerView banner;
+    private float bannerHeight = 0f;
 
     private InterstitialAd interAD;
     private System.Action OnCloseInterAD;
@@ -46,6 +48,8 @@ public class ADManager : MonoBehaviour
     {
         MobileAds.Initialize(_ => { });
 
+        rootCanvas = FindFirstObjectByType<Canvas>();
+
         CreateBanner(true);
         LoadInterAD();
         LoadReward();
@@ -82,8 +86,6 @@ public class ADManager : MonoBehaviour
     {
         if (_show)
         {
-            float margin = 0f;
-
             if (banner == null)
             {
                 var size = AdSize.GetCurrentOrientationAnchoredAdaptiveBannerAdSizeWithWidth(AdSize.FullWidth);
@@ -91,39 +93,65 @@ public class ADManager : MonoBehaviour
                 banner.LoadAd(new AdRequest());
                 RegisterBanner();
 
-                var go = GameObject.Find("ADAPTIVE(Clone)");
-                if (go != null)
-                {
-                    go.name = "Banner";
-                    go.transform.SetParent(transform);
-
-                    var image = go.transform.Find("Image");
-                    if (image != null)
-                        margin = image.GetComponent<RectTransform>().rect.height;
-                }
+                UpdateBannerHeight();
             }
             else banner.Show();
-
-            UIManager.Instance?.SetInGameUI(margin);
         }
         else
         {
             banner?.Hide();
-            UIManager.Instance?.SetInGameUI(0f);
+            bannerHeight = 0f;
         }
+
+        UIManager.Instance?.SetInGameUI(bannerHeight);
     }
 
     private void RegisterBanner()
     {
         if (banner == null) return;
-        banner.OnBannerAdLoaded += () => { };
-        banner.OnBannerAdLoadFailed += _ => { };
+        banner.OnBannerAdLoaded += () =>
+        {
+            UpdateBannerHeight();
+            UIManager.Instance?.SetInGameUI(bannerHeight);
+        };
+        banner.OnBannerAdLoadFailed += _ =>
+        {
+            bannerHeight = 0f;
+            UIManager.Instance?.SetInGameUI(bannerHeight);
+        };
         banner.OnAdPaid += _ => { };
         banner.OnAdImpressionRecorded += () => { };
         banner.OnAdClicked += () => { };
         banner.OnAdFullScreenContentOpened += () => { };
         banner.OnAdFullScreenContentClosed += () => { };
     }
+
+    private void UpdateBannerHeight()
+    {
+#if UNITY_EDITOR
+        float h = 0f;
+        var go = GameObject.Find("ADAPTIVE(Clone)");
+        if (go == null) go = GameObject.Find("Banner");
+        if (go != null)
+        {
+            go.transform.SetParent(transform);
+            var image = go.transform.Find("Image");
+            if (image != null)
+            {
+                var rt = image.GetComponent<RectTransform>();
+                if (rt != null) h = rt.rect.height;
+            }
+        }
+        bannerHeight = h;
+#else
+        if (banner == null) { bannerHeight = 0f; return; }
+        if (rootCanvas == null) rootCanvas = FindFirstObjectByType<Canvas>();
+        float px = banner.GetHeightInPixels();
+        float scale = (rootCanvas != null) ? rootCanvas.scaleFactor : 1f;
+        bannerHeight = px / Mathf.Max(0.0001f, scale);
+#endif
+    }
+
     #endregion
 
     #region 전면 광고

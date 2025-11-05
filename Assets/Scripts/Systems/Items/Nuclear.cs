@@ -23,15 +23,16 @@ public class Nuclear : Item
         base.Update();
 
         if (isActive)
+        {
             transform.Rotate(0f, 0f, -spin * Time.deltaTime);
+            GrowScale(scale);
+        }
     }
 
     public override void UseItem()
     {
         if (isActive) return;
         base.UseItem();
-
-        transform.localScale *= scale;
 
         if (isOrigin)
         {

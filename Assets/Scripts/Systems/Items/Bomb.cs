@@ -19,15 +19,16 @@ public class Bomb : Item
         base.Update();
 
         if (isActive)
+        {
             transform.Rotate(0f, 0f, -spin * Time.deltaTime);
+            GrowScale(scale);
+        }
     }
 
     public override void UseItem()
     {
         if (isActive) return;
         base.UseItem();
-
-        transform.localScale *= scale;
 
         Stop();
         EntityManager.Instance?.RemoveItem(this, duration + durationBonus * bonusStat);

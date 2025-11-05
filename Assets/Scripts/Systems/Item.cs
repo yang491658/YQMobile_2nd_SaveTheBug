@@ -6,6 +6,7 @@ public class Item : Entity
 
     [Header("Stat")]
     [SerializeField] private float moveSpeed = 3.5f;
+    [SerializeField] private float growSpeed = 10f;
     [SerializeField] protected int bonusStat;
     [SerializeField] private float bgDuration = 15f;
     private float bgTimer = 0f;
@@ -62,6 +63,15 @@ public class Item : Entity
         if (bgCol != null) Destroy(bgCol.gameObject);
     }
 
+    public virtual void GrowScale(float _scale)
+    {
+        transform.localScale = Vector3.MoveTowards(
+            transform.localScale,
+            Vector3.one * _scale,
+            Time.deltaTime * growSpeed
+        );
+    }
+
     #region SET
     public override void SetData(EntityData _data)
     {
@@ -69,5 +79,6 @@ public class Item : Entity
 
         bonusStat = ((ItemData)_data).Stat;
     }
+    public void SetScale(float _scale) => transform.localScale = Vector3.one * _scale;
     #endregion
 }

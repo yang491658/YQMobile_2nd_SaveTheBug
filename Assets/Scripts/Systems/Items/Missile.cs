@@ -14,12 +14,19 @@ public class Missile : Item
     [SerializeField] private float minSpeed = 0.5f;
     #endregion
 
+    protected override void Update()
+    {
+        base.Update();
+
+        if (isActive)
+            GrowScale(scale);
+    }
+
     public override void UseItem()
     {
         if (isActive) return;
         base.UseItem();
 
-        transform.localScale *= scale;
         Fire();
     }
 

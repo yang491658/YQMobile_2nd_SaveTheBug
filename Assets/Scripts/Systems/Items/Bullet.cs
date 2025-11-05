@@ -37,16 +37,16 @@ public class Bullet : Item
         {
             transform.position = player.transform.position;
             sr.color = new Color32(255, 255, 255, 0);
-            StartCoroutine(CopySelf());
+            StartCoroutine(CopySelfCoroutine());
         }
         else
         {
-            transform.localScale *= scale;
+            SetScale(scale);
             Fire();
         }
     }
 
-    private IEnumerator CopySelf()
+    private IEnumerator CopySelfCoroutine()
     {
         for (int i = 0; i < count + countBonus * bonusStat; i++)
         {

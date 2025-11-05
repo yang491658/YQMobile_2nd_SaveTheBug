@@ -13,12 +13,19 @@ public class Clone : Item
     [SerializeField] private float speedBonus = 2f;
     #endregion
 
+    protected override void Update()
+    {
+        base.Update();
+
+        if (isActive)
+            GrowScale(scale);
+    }
+
     public override void UseItem()
     {
         if (isActive) return;
         base.UseItem();
 
-        transform.localScale *= scale;
         Fire();
     }
 

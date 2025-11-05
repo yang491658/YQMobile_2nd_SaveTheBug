@@ -38,16 +38,16 @@ public class Spiral : Item
         {
             transform.position = player.transform.position;
             sr.color = new Color32(255, 255, 255, 0);
-            StartCoroutine(CopySelf());
+            StartCoroutine(CopySelfCoroutine());
         }
         else
         {
-            transform.localScale *= scale;
+            SetScale(scale);
             Fire();
         }
     }
 
-    private IEnumerator CopySelf()
+    private IEnumerator CopySelfCoroutine()
     {
         Vector3 baseDir = player.transform.up;
 

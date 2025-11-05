@@ -27,7 +27,10 @@ public class Bounce : Item
         base.Update();
 
         if (isActive)
+        {
             transform.Rotate(0f, 0f, -spin * rb.linearVelocity.magnitude * Time.deltaTime);
+            GrowScale(scale);
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D _collision)
@@ -49,7 +52,6 @@ public class Bounce : Item
         if (isActive) return;
         base.UseItem();
 
-        transform.localScale *= scale;
         player = EntityManager.Instance?.GetPlayer();
         bounce += bounceBonus * bonusStat;
 

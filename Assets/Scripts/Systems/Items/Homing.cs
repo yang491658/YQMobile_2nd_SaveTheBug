@@ -35,7 +35,10 @@ public class Homing : Item
         base.Update();
 
         if (isActive)
+        {
             transform.Rotate(0f, 0f, -spin * Time.deltaTime);
+            if (!isMoving) GrowScale(scale);
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D _collision)
@@ -44,7 +47,6 @@ public class Homing : Item
         {
             if ((transform.position - basePos).sqrMagnitude > (distance * distance))
             {
-                transform.localScale *= scale;
                 sr.sortingOrder = 1;
                 spin *= scale;
                 isMoving = false;

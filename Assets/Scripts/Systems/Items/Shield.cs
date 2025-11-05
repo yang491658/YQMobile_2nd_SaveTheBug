@@ -30,7 +30,10 @@ public class Shield : Item
         base.Update();
 
         if (isActive)
+        {
             transform.Rotate(0f, 0f, -spin * Time.deltaTime);
+            GrowScale(scale);
+        }
     }
 
     private void LateUpdate()
@@ -49,8 +52,7 @@ public class Shield : Item
     {
         if (isActive) return;
         base.UseItem();
-
-        transform.localScale *= scale;
+                
         rb.bodyType = RigidbodyType2D.Kinematic;
         player = EntityManager.Instance?.GetPlayer();
 

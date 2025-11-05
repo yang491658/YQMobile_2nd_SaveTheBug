@@ -146,8 +146,6 @@ public class EntityManager : MonoBehaviour
     {
         if (ADManager.Instance != null) ADManager.Instance?.ShowReward(_act);
         else _act?.Invoke();
-
-        GameManager.Instance?.Pause(GameManager.Instance.IsPaused);
     }
 
     public void Reset()

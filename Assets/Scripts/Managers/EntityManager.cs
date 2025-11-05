@@ -21,8 +21,8 @@ public class EntityManager : MonoBehaviour
     [SerializeField] private GameObject enemyBase;
     [SerializeField] private GameObject itemBase;
     [SerializeField] private ItemData[] itemDatas;
-    private readonly Dictionary<int, ItemData> itemDic = new Dictionary<int, ItemData>();
-    private readonly Dictionary<string, System.Type> itemTypeDic = new Dictionary<string, System.Type>();
+    readonly private Dictionary<int, ItemData> itemDic = new Dictionary<int, ItemData>();
+    readonly private Dictionary<string, System.Type> itemTypeDic = new Dictionary<string, System.Type>();
 
     [Header("Spawn Settings")]
     [SerializeField] private int eMinCount = 1;

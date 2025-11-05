@@ -32,7 +32,7 @@ public class EntityManager : MonoBehaviour
     [SerializeField][Min(0.05f)] private float iDelay = 10f;
     [SerializeField][Min(0.05f)] private float iMinDelay = 3f;
     private float eBaseDelay;
-    private float iBaseDelay;
+    private float iDelayBase;
     private Coroutine spawnRoutine;
 
     [Header("Entities")]
@@ -146,6 +146,8 @@ public class EntityManager : MonoBehaviour
     {
         if (ADManager.Instance != null) ADManager.Instance?.ShowReward(_act);
         else _act?.Invoke();
+
+        GameManager.Instance?.Pause(GameManager.Instance.IsPaused);
     }
 
     public void Reset()
@@ -170,27 +172,27 @@ public class EntityManager : MonoBehaviour
 
         Rect r = AutoCamera.WorldRect;
 
-        float minX = r.xMin, maxX = r.xMax;
+        float xMin = r.xMin, xMax = r.xMax;
         float yMin = r.yMin, yMax = r.yMax, yMid = r.center.y;
 
         bool enemy = _kind == SpawnKind.Enemy;
         int edge = Random.Range(0, enemy ? 3 : 4);
-        float x = Random.Range(minX, maxX);
+        float x = Random.Range(xMin, xMax);
         float y = enemy ? Random.Range(yMid, yMax) : Random.Range(yMin, yMax);
 
         if (enemy)
             return edge == 0 ? new Vector3(x, yMax)
-                 : edge == 1 ? new Vector3(minX, y)
-                 : new Vector3(maxX, y);
+                 : edge == 1 ? new Vector3(xMin, y)
+                 : new Vector3(xMax, y);
 
         float p = 1.5f;
-        float ix = Random.Range(minX + p, maxX - p);
+        float ix = Random.Range(xMin + p, xMax - p);
         float iy = Random.Range(yMin + p, yMax - p);
 
         return edge == 0 ? new Vector3(ix, yMax) + Vector3.down
              : edge == 1 ? new Vector3(ix, yMin) + Vector3.up
-             : edge == 2 ? new Vector3(minX, iy) + Vector3.right
-             : new Vector3(maxX, iy) + Vector3.left;
+             : edge == 2 ? new Vector3(xMin, iy) + Vector3.right
+             : new Vector3(xMax, iy) + Vector3.left;
     }
 
     public void ToggleSpawn(bool _on)
@@ -337,13 +339,13 @@ public class EntityManager : MonoBehaviour
         Vector3 c = new Vector3(AutoCamera.WorldRect.center.x, AutoCamera.WorldRect.yMin * 0.6f, 0f);
         player.transform.localPosition = c;
         eBaseDelay = eDelay;
-        iBaseDelay = iDelay;
+        iDelayBase = iDelay;
     }
 
     public void ResetEntity()
     {
         eDelay = eBaseDelay;
-        iDelay = iBaseDelay;
+        iDelay = iDelayBase;
 
         foreach (var item in itemDatas)
             item.ResetStat(false);

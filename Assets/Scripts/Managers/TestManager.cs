@@ -78,7 +78,7 @@ public class TestManager : MonoBehaviour
             KeyCode key = (i == 10) ? KeyCode.Alpha0 : (KeyCode)((int)KeyCode.Alpha0 + i);
             if (Input.GetKeyDown(key))
             {
-                if (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift))
+                if (Input.GetKey(KeyCode.LeftControl) || Input.GetKey(KeyCode.RightControl))
                 {
                     ItemData item = EntityManager.Instance?.SearchItem(i);
 
@@ -86,7 +86,7 @@ public class TestManager : MonoBehaviour
                         GameManager.Instance?.LevelUp(item.Level - GameManager.Instance.GetLevel());
                     if (GameManager.Instance?.GetPoint() <= 0)
                         GameManager.Instance?.LevelUp();
-                    
+
                     item.StatUp();
                     break;
                 }

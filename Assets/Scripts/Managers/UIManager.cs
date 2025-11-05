@@ -44,6 +44,7 @@ public class UIManager : MonoBehaviour
     private float playTime = 0f;
     [SerializeField] private TextMeshProUGUI scoreText;
     [SerializeField] private TextMeshProUGUI levelText;
+    [SerializeField] private TextMeshProUGUI itemText;
     [SerializeField] private Slider expSlider;
 
     [Header("Setting UI")]
@@ -86,6 +87,8 @@ public class UIManager : MonoBehaviour
             scoreText = GameObject.Find("InGameUI/Score/ScoreText")?.GetComponent<TextMeshProUGUI>();
         if (levelText == null)
             levelText = GameObject.Find("InGameUI/Level/LevelText")?.GetComponent<TextMeshProUGUI>();
+        if (itemText == null)
+            itemText = GameObject.Find("InGameUI/Level/ItemText")?.GetComponent<TextMeshProUGUI>();
         if (expSlider == null)
             expSlider = GameObject.Find("InGameUI/ExpSlider").GetComponentInChildren<Slider>();
 
@@ -182,7 +185,7 @@ public class UIManager : MonoBehaviour
 
         playTime += Time.unscaledDeltaTime;
         UpdatePlayTime();
-        UpdateLevelText();
+        UpdateItemText();
     }
 
     private void OnEnable()
@@ -276,6 +279,8 @@ public class UIManager : MonoBehaviour
             levelText.text = "MAX";
         else
             levelText.text = GameManager.Instance.GetLevel().ToString("'LV.'00");
+
+        itemText.text = string.Empty;
     }
 
     public void OpenConfirm(bool _on, string _text = null, System.Action _action = null, bool _pass = false)
@@ -332,14 +337,14 @@ public class UIManager : MonoBehaviour
 
     public void UpdateExp(int _currentExp)
     {
-        int nextExp = GameManager.Instance.GetNextExp();
-        if (nextExp <= 0)
+        if (GameManager.Instance.IsMaxLevel())
         {
-            expSlider.maxValue = 1f;
-            expSlider.value = 1f;
+            expSlider.gameObject.SetActive(false);
             return;
         }
 
+        int nextExp = GameManager.Instance.GetNextExp();
+        expSlider.gameObject.SetActive(true);
         expSlider.maxValue = nextExp;
         expSlider.value = Mathf.Clamp(nextExp - _currentExp, 0, nextExp);
     }
@@ -363,45 +368,32 @@ public class UIManager : MonoBehaviour
 
         bool isMax = GameManager.Instance.IsMaxLevel();
 
-        string t = levelText.text;
-        if (newItem && t != "NEW")
-            levelText.text = "NEW";
-        else if (t != "NEW" && t != "UP")
-        {
-            if (isMax)
-                levelText.text = "MAX";
-            else
-                levelText.text = _level.ToString("'LV.'00");
-        }
+        levelText.text = isMax ? "MAX" : _level.ToString("'LV.'00");
+
+        if (levelText.text == "MAX")
+            levelText.color = Color.green;
+        else
+            levelText.color = Color.white;
+
+        itemText.text = newItem ? "NEW" : itemText.text;
 
         if (statUI.activeSelf)
             for (int i = 0; i < statItems.Count; i++)
                 UpdateStat(i, datas[i]);
     }
 
-    public void UpdateLevelText()
+    public void UpdateItemText()
     {
         float s = Mathf.PingPong(playTime * 4f, 1f);
-
-        if (levelText.text == "NEW")
+        if (itemText.text == "NEW")
         {
             Color c = Color.red;
-            levelText.color = Color.Lerp(c, Color.white, s);
+            itemText.color = Color.Lerp(c, Color.white, s);
         }
-        else if (levelText.text == "UP")
+        else if (itemText.text == "UP")
         {
             Color c = Color.blue;
-            levelText.color = Color.Lerp(c, Color.white, s);
-        }
-        else if (levelText.text == "MAX")
-        {
-            Color c = Color.green;
-            levelText.color = c;
-        }
-        else
-        {
-            Color c = Color.white;
-            levelText.color = c;
+            itemText.color = Color.Lerp(c, Color.white, s);
         }
     }
 
@@ -417,10 +409,10 @@ public class UIManager : MonoBehaviour
                 UpdateStat(i, datas[i]);
         }
 
-        bool pointUp = (_point == prevPoint + 1);
+        bool pointUp = (_point > prevPoint);
 
-        if (pointUp && levelText.text != "NEW")
-            levelText.text = "UP";
+        if (pointUp && itemText.text != "NEW")
+            itemText.text = "UP";
 
         prevPoint = _point;
     }

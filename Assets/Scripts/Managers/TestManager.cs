@@ -16,9 +16,6 @@ public class TestManager : MonoBehaviour
     [Header("Sound Test")]
     [SerializeField] private bool bgmPause = false;
 
-    [Header("Entiy Test")]
-    [SerializeField] private bool spawn = true;
-
     private void Awake()
     {
         if (Instance != null && Instance != this)
@@ -78,7 +75,7 @@ public class TestManager : MonoBehaviour
             KeyCode key = (i == 10) ? KeyCode.Alpha0 : (KeyCode)((int)KeyCode.Alpha0 + i);
             if (Input.GetKeyDown(key))
             {
-                if (Input.GetKey(KeyCode.LeftControl) || Input.GetKey(KeyCode.RightControl))
+                if (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift))
                 {
                     ItemData item = EntityManager.Instance?.SearchItem(i);
 
@@ -100,12 +97,9 @@ public class TestManager : MonoBehaviour
             }
         }
 
-        if (Input.GetKeyDown(KeyCode.E))
-        {
-            spawn = !spawn;
-            EntityManager.Instance?.ToggleSpawn(spawn);
-        }
-        if (Input.GetKeyDown(KeyCode.T))
+        if (Input.GetKey(KeyCode.E))
+            EntityManager.Instance?.SpawnEnemy();
+        if (Input.GetKey(KeyCode.T))
             EntityManager.Instance?.SpawnItem();
         if (Input.GetKeyDown(KeyCode.Delete)) EntityManager.Instance?.RemoveAll();
         #endregion

@@ -76,14 +76,15 @@ public class Item : Entity
     public virtual void GrowScale(float _scale)
     {
         Vector3 target = Vector3.one * _scale;
-
-        transform.localScale = Vector3.Lerp(
-            transform.localScale,
+        Vector3 current = transform.localScale;
+        Vector3 next = Vector3.Lerp(
+            current,
             target,
             Time.deltaTime * growSpeed
-            );
+        );
 
-        if ((transform.localScale - target).sqrMagnitude <= 0.0001f)
+        transform.localScale = next;
+        if ((next - target).sqrMagnitude <= 0.0001f)
             transform.localScale = target;
     }
 

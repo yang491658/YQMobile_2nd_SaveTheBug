@@ -68,11 +68,11 @@ public class AutoBackground : MonoBehaviour
 
         var parent = transform.parent;
         Vector3 parentLossy = (parent != null) ? parent.lossyScale : Vector3.one;
-        float invX = (parentLossy.x == 0f) ? 1f : parentLossy.x;
-        float invY = (parentLossy.y == 0f) ? 1f : parentLossy.y;
+        float parentScaleX = (parentLossy.x == 0f) ? 1f : parentLossy.x;
+        float parentScaleY = (parentLossy.y == 0f) ? 1f : parentLossy.y;
 
-        float localX = (worldW / spriteW) / invX;
-        float localY = (worldH / spriteH) / invY;
+        float localX = (worldW / spriteW) / parentScaleX;
+        float localY = (worldH / spriteH) / parentScaleY;
         transform.localScale = new Vector3(localX, localY, (localX + localY) / 2f);
 
         var b = sr.bounds;

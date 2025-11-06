@@ -216,6 +216,7 @@ public class UIManager : MonoBehaviour
         sfxSlider.onValueChanged.AddListener(SoundManager.Instance.SetSFXVolume);
 
         OnOpenUI += GameManager.Instance.Pause;
+        OnOpenUI += SoundManager.Instance.PauseSFXLoop;
     }
 
     private void OnDisable()
@@ -232,6 +233,7 @@ public class UIManager : MonoBehaviour
         sfxSlider.onValueChanged.RemoveListener(SoundManager.Instance.SetSFXVolume);
 
         OnOpenUI -= GameManager.Instance.Pause;
+        OnOpenUI -= SoundManager.Instance.PauseSFXLoop;
     }
 
     #region 오픈
@@ -375,11 +377,7 @@ public class UIManager : MonoBehaviour
         bool isMax = GameManager.Instance.IsMaxLevel();
 
         levelText.text = isMax ? "MAX" : _level.ToString("'LV.'00");
-
-        if (levelText.text == "MAX")
-            levelText.color = Color.green;
-        else
-            levelText.color = Color.white;
+        levelText.color = isMax ? Color.green : Color.white;
 
         itemText.text = newItem ? "NEW" : itemText.text;
 

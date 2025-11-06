@@ -71,7 +71,7 @@ public class SoundManager : MonoBehaviour
     }
 
     public void PauseSound(bool _on) => AudioListener.pause = _on;
-    public void PauseSound(string _on) => AudioListener.pause = bool.TryParse(_on, out var v) && v;
+    public void PauseSound(string _on) => AudioListener.pause = bool.TryParse(_on, out var _v) && _v;
 
     #region 배경음
     public void PlayBGM(AudioClip _clip)
@@ -84,8 +84,8 @@ public class SoundManager : MonoBehaviour
 
     public void PlayBGM(string _name)
     {
-        if (bgmDict.TryGetValue(_name, out var clip))
-            PlayBGM(clip);
+        if (bgmDict.TryGetValue(_name, out var _clip))
+            PlayBGM(_clip);
     }
 
     public void PauseBGM(bool _on)
@@ -117,8 +117,8 @@ public class SoundManager : MonoBehaviour
 
     public void PlaySFX(string _name)
     {
-        if (sfxDict.TryGetValue(_name, out var clip))
-            PlaySFX(clip);
+        if (sfxDict.TryGetValue(_name, out var _clip))
+            PlaySFX(_clip);
     }
 
     public AudioSource PlaySFXLoop(AudioClip _clip, Transform _owner)
@@ -139,6 +139,16 @@ public class SoundManager : MonoBehaviour
     {
         if (!sfxDict.TryGetValue(_name, out var _clip)) return null;
         return PlaySFXLoop(_clip, _owner);
+    }
+
+    public void PauseSFXLoop(bool _on)
+    {
+        sfxLoops.RemoveWhere(src => src == null);
+
+        if (_on)
+            foreach (var src in sfxLoops) src.Pause();
+        else
+            foreach (var src in sfxLoops) src.UnPause();
     }
 
     public void StopSFXLoop(AudioSource _src)

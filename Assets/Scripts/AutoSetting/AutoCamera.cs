@@ -59,8 +59,8 @@ public class AutoCamera : MonoBehaviour
         OrthoSize = size;
         float worldH = cam.orthographicSize * 2f;
         float worldW = worldH * cam.aspect;
-        Vector3 c = cam.transform.position;
-        WorldRect = new Rect(c.x - worldW * 0.5f, c.y - worldH * 0.5f, worldW, worldH);
+        Vector3 pos = cam.transform.position;
+        WorldRect = new Rect(pos.x - worldW * 0.5f, pos.y - worldH * 0.5f, worldW, worldH);
 
         float delta = size - baseSize;
         if (Mathf.Abs(delta - SizeDelta) > 1e-5f)

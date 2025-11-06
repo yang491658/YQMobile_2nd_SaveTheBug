@@ -132,10 +132,8 @@ public class EntityManager : MonoBehaviour
 
         var go = Instantiate(itemBase, pos, Quaternion.identity, itemTrans);
 
-        System.Type t = null;
-        itemTypeDic.TryGetValue(data.Name, out t);
-
-        Item i = t != null ? (Item)go.AddComponent(t) : go.AddComponent<Item>();
+        itemTypeDic.TryGetValue(data.Name, out var _t);
+        Item i = _t != null ? (Item)go.AddComponent(_t) : go.AddComponent<Item>();
         i.SetData(data.Clone());
         items.Add(i);
 
@@ -375,7 +373,7 @@ public class EntityManager : MonoBehaviour
             var it = items[i];
             if (it == null)
             {
-                items.RemoveAt(i);
+                items.RemoveAt(i--);
                 continue;
             }
 

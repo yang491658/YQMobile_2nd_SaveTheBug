@@ -31,7 +31,7 @@ public class EntityManager : MonoBehaviour
     [SerializeField][Min(0.05f)] private float eMinDelay = 0.05f;
     [SerializeField][Min(0.05f)] private float iDelay = 10f;
     [SerializeField][Min(0.05f)] private float iMinDelay = 3f;
-    private float eBaseDelay;
+    private float eDelayBase;
     private float iDelayBase;
     private Coroutine spawnRoutine;
 
@@ -344,13 +344,13 @@ public class EntityManager : MonoBehaviour
 
         Vector3 c = new Vector3(AutoCamera.WorldRect.center.x, AutoCamera.WorldRect.yMin * 0.6f, 0f);
         player.transform.localPosition = c;
-        eBaseDelay = eDelay;
+        eDelayBase = eDelay;
         iDelayBase = iDelay;
     }
 
     public void ResetEntity()
     {
-        eDelay = eBaseDelay;
+        eDelay = eDelayBase;
         iDelay = iDelayBase;
 
         foreach (var item in itemDatas)

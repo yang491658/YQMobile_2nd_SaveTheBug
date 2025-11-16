@@ -181,7 +181,6 @@ public class HandleManager : MonoBehaviour
                 isDragging = false;
                 OnDragEnd(dragStart, worldPos);
 #if UNITY_EDITOR
-                dragPath.Add(worldPos);
                 dragPath.Clear();
 #endif
                 return;

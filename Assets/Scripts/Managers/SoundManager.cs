@@ -205,17 +205,17 @@ public class SoundManager : MonoBehaviour
     public void SetSFXVolume(float _volume = 1f)
     {
         sfxVol = Mathf.Clamp01(_volume);
-        sfxSource.volume = sfxVol;
-        sfxSource.mute = (sfxVol <= 0f);
+        bool isMuted = sfxVol <= 0f;
 
-        var dead = new List<AudioSource>();
-        foreach (var src in sfxLoops) if (src == null) dead.Add(src);
-        for (int i = 0; i < dead.Count; i++) sfxLoops.Remove(dead[i]);
+        sfxSource.volume = sfxVol;
+        sfxSource.mute = isMuted;
+
+        sfxLoops.RemoveWhere(src => src == null);
 
         foreach (var src in sfxLoops)
         {
             src.volume = sfxVol;
-            src.mute = (sfxVol <= 0f);
+            src.mute = isMuted;
         }
 
         if (sfxVol > 0f) prevSfxVol = sfxVol;

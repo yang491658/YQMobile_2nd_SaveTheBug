@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -11,6 +12,11 @@ public class HandleManager : MonoBehaviour
 
     [Header("Entity")]
     [SerializeField] private Player player;
+
+    [Header("Click")]
+    private const float doubleClick = 0.25f;
+    private bool isDoubleClick;
+    private float clickTimer;
 
     [Header("Drag")]
     [SerializeField][Min(0f)] private float maxDrag = 5f;
@@ -220,6 +226,19 @@ public class HandleManager : MonoBehaviour
             }
         }
 
+        if (Time.time - clickTimer < doubleClick)
+        {
+            isDoubleClick = false;
+            clickTimer = 0;
+            OnDouble(worldPos);
+        }
+        else
+        {
+            isDoubleClick = true;
+            clickTimer = Time.time;
+            StartCoroutine(ClickCoroutine(worldPos));
+        }
+
         canDrag = false;
         isDragging = false;
 #if UNITY_EDITOR
@@ -233,9 +252,33 @@ public class HandleManager : MonoBehaviour
         Vector3 delta = _current - _start;
         return _start + Vector3.ClampMagnitude(delta, maxDrag);
     }
+
+    private IEnumerator ClickCoroutine(Vector3 _pos)
+    {
+        yield return new WaitForSeconds(doubleClick);
+        if (isDoubleClick)
+        {
+            isDoubleClick = false;
+            OnSingle(_pos);
+        }
+    }
     #endregion
 
     #region 동작
+    private void OnSingle(Vector3 _pos)
+    {
+#if UNITY_EDITOR
+        AddClick(_pos, Color.cyan);
+#endif
+    }
+
+    private void OnDouble(Vector3 _pos)
+    {
+#if UNITY_EDITOR
+        AddClick(_pos, Color.blue);
+#endif
+    }
+
     private void OnDragBegin(Vector3 _pos)
     {
         if (aimVisible)
@@ -281,6 +324,11 @@ public class HandleManager : MonoBehaviour
             Item item = hit.GetComponent<Item>();
             if (item != null) item.UseItem();
         }
+    }
+
+    private void OnMiddleClick(Vector3 _pos)
+    {
+        AddClick(_pos, Color.red);
     }
 
     private void AddClick(Vector3 _pos, Color _color)

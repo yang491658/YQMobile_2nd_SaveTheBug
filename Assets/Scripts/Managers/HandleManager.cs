@@ -12,11 +12,6 @@ public class HandleManager : MonoBehaviour
     [Header("Entity")]
     [SerializeField] private Player player;
 
-    [Header("Click")]
-    private const float doubleClick = 0.25f;
-    private bool isDoubleClick;
-    private float clickTimer;
-
     [Header("Drag")]
     [SerializeField][Min(0f)] private float maxDrag = 5f;
     private const float drag = 0.15f;
@@ -187,19 +182,6 @@ public class HandleManager : MonoBehaviour
             }
         }
 
-        if (Time.time - clickTimer < doubleClick)
-        {
-            isDoubleClick = false;
-            clickTimer = 0;
-            OnDouble(worldPos);
-        }
-        else
-        {
-            isDoubleClick = true;
-            clickTimer = Time.time;
-            StartCoroutine(ClickCoroutine(worldPos));
-        }
-
         isDragging = false;
 #if UNITY_EDITOR
         dragPath.Clear();
@@ -212,35 +194,9 @@ public class HandleManager : MonoBehaviour
         Vector3 delta = _current - _start;
         return _start + Vector3.ClampMagnitude(delta, maxDrag);
     }
-
-    private IEnumerator ClickCoroutine(Vector3 _pos)
-    {
-        yield return new WaitForSeconds(doubleClick);
-        if (isDoubleClick)
-        {
-            isDoubleClick = false;
-            OnSingle(_pos);
-        }
-    }
     #endregion
 
     #region 동작
-    private void OnSingle(Vector3 _pos)
-    {
-        Debug.Log($"단순 터치 : {_pos}"); // TODO 단순 터치 동작
-#if UNITY_EDITOR
-        AddClick(_pos, Color.cyan);
-#endif
-    }
-
-    private void OnDouble(Vector3 _pos)
-    {
-        Debug.Log($"더블 터치 : {_pos}"); // TODO 더블 터치 동작
-#if UNITY_EDITOR
-        AddClick(_pos, Color.blue);
-#endif
-    }
-
     private void OnDragBegin(Vector3 _pos)
     {
         if (aimVisible)
@@ -278,7 +234,6 @@ public class HandleManager : MonoBehaviour
 #if UNITY_EDITOR
     private void OnRightClick(Vector3 _pos)
     {
-        Debug.Log($"우클릭 : {_pos}"); // TODO 우클릭 동작
         AddClick(_pos, Color.yellow);
 
         Collider2D hit = Physics2D.OverlapPoint(_pos, LayerMask.GetMask("Item"));
@@ -291,7 +246,6 @@ public class HandleManager : MonoBehaviour
 
     private void OnMiddleClick(Vector3 _pos)
     {
-        Debug.Log($"휠클릭 : {_pos}"); // TODO 휠클릭 동작
         AddClick(_pos, Color.red);
     }
 

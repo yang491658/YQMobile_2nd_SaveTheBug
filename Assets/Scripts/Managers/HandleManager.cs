@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -282,11 +281,6 @@ public class HandleManager : MonoBehaviour
             Item item = hit.GetComponent<Item>();
             if (item != null) item.UseItem();
         }
-    }
-
-    private void OnMiddleClick(Vector3 _pos)
-    {
-        AddClick(_pos, Color.red);
     }
 
     private void AddClick(Vector3 _pos, Color _color)

@@ -1,13 +1,13 @@
-using UnityEngine;
+ï»¿using UnityEngine;
 
 public class Clone : Item
 {
-    #region ½ºÄÉÀÏ
+    #region ìŠ¤ì¼€ì¼
     [Header("Scale")]
     [SerializeField] private float scale = 1f;
     #endregion
 
-    #region ´É·Â
+    #region ëŠ¥ë ¥
     [Header("Ability")]
     [SerializeField] private float speed = 9f;
     [SerializeField] private float speedBonus = 2f;

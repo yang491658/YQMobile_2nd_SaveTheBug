@@ -1,14 +1,14 @@
-using UnityEngine;
+ï»¿using UnityEngine;
 
 public class Nuclear : Item
 {
-    #region ½ºÄÉÀÏ
+    #region ìŠ¤ì¼€ì¼
     [Header("Scale")]
     [SerializeField] private float scale = 1.2f;
     [SerializeField] private float spin = 120f;
     #endregion
 
-    #region ´É·Â
+    #region ëŠ¥ë ¥
     [Header("Ability")]
     private bool isOrigin = true;
     [SerializeField] private int count = 1;

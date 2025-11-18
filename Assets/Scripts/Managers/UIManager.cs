@@ -483,8 +483,8 @@ public class UIManager : MonoBehaviour
     #endregion
 
     #region 버튼
-    public void OnClickClose() => OpenUI(false);
     public void OnClickSetting() => OpenSetting(true);
+    public void OnClickClose() => OpenUI(false);
 
     public void OnClickSpeed()
     {

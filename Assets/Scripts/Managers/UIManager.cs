@@ -323,7 +323,7 @@ public class UIManager : MonoBehaviour
     #endregion
 
     #region 업데이트
-    public void ResetPlayTime() => playTime = 0;
+    public void ResetUI() => playTime = 0;
 
     public void UpdatePlayTime()
     {
@@ -484,8 +484,8 @@ public class UIManager : MonoBehaviour
 
     #region 버튼
     public void OnClickSetting() => OpenSetting(true);
-    public void OnClickClose() => OpenUI(false);
 
+    public void OnClickClose() => OpenUI(false);
     public void OnClickSpeed()
     {
         if (speedSlider.value != 1f)

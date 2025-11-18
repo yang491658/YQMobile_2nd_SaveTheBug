@@ -38,6 +38,7 @@ public class TestManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.O))
         {
             GameManager.Instance?.SetSpeed(GameManager.Instance.GetMaxSpeed());
+            GameManager.Instance?.Replay();
             isAutoPlay = !isAutoPlay;
             isAutoReplay = !isAutoReplay;
         }

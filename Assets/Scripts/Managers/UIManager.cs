@@ -193,21 +193,17 @@ public class UIManager : MonoBehaviour
 
     private void OnEnable()
     {
-        GameManager.Instance.OnChangeScore += UpdateScore;
-        GameManager.Instance.OnChangeExp += UpdateExp;
-        GameManager.Instance.OnChangeLevel += UpdateLevel;
-        GameManager.Instance.OnChangePoint += UpdatePoint;
+        GameManager.Instance.OnChangeSpeed += UpdateSpeed;
         speedSlider.minValue = GameManager.Instance.GetMinSpeed();
         speedSlider.maxValue = GameManager.Instance.GetMaxSpeed();
         speedSlider.wholeNumbers = false;
         speedSlider.value = GameManager.Instance.GetSpeed();
         speedSlider.onValueChanged.AddListener(GameManager.Instance.SetSpeed);
 
-        sensSlider.minValue = HandleManager.Instance.GetMinSens();
-        sensSlider.maxValue = HandleManager.Instance.GetMaxSens();
-        sensSlider.wholeNumbers = false;
-        sensSlider.value = HandleManager.Instance.GetSens();
-        sensSlider.onValueChanged.AddListener(HandleManager.Instance.SetSens);
+        GameManager.Instance.OnChangeScore += UpdateScore;
+        GameManager.Instance.OnChangeExp += UpdateExp;
+        GameManager.Instance.OnChangeLevel += UpdateLevel;
+        GameManager.Instance.OnChangePoint += UpdatePoint;
 
         SoundManager.Instance.OnChangeVolume += UpdateVolume;
         bgmSlider.value = SoundManager.Instance.GetBGMVolume();
@@ -215,22 +211,33 @@ public class UIManager : MonoBehaviour
         sfxSlider.value = SoundManager.Instance.GetSFXVolume();
         sfxSlider.onValueChanged.AddListener(SoundManager.Instance.SetSFXVolume);
 
+        HandleManager.Instance.OnChangeSens += UpdateSens;
+        sensSlider.minValue = HandleManager.Instance.GetMinSens();
+        sensSlider.maxValue = HandleManager.Instance.GetMaxSens();
+        sensSlider.wholeNumbers = false;
+        sensSlider.value = HandleManager.Instance.GetSens();
+        sensSlider.onValueChanged.AddListener(HandleManager.Instance.SetSens);
+
         OnOpenUI += GameManager.Instance.Pause;
         OnOpenUI += SoundManager.Instance.PauseSFXLoop;
     }
 
     private void OnDisable()
     {
+        GameManager.Instance.OnChangeSpeed -= UpdateSpeed;
+        speedSlider.onValueChanged.RemoveListener(GameManager.Instance.SetSpeed);
+
         GameManager.Instance.OnChangeScore -= UpdateScore;
         GameManager.Instance.OnChangeExp -= UpdateExp;
         GameManager.Instance.OnChangeLevel -= UpdateLevel;
         GameManager.Instance.OnChangePoint -= UpdatePoint;
-        speedSlider.onValueChanged.RemoveListener(GameManager.Instance.SetSpeed);
-        sensSlider.onValueChanged.RemoveListener(HandleManager.Instance.SetSens);
 
         SoundManager.Instance.OnChangeVolume -= UpdateVolume;
         bgmSlider.onValueChanged.RemoveListener(SoundManager.Instance.SetBGMVolume);
         sfxSlider.onValueChanged.RemoveListener(SoundManager.Instance.SetSFXVolume);
+
+        HandleManager.Instance.OnChangeSens -= UpdateSens;
+        sensSlider.onValueChanged.RemoveListener(HandleManager.Instance.SetSens);
 
         OnOpenUI -= GameManager.Instance.Pause;
         OnOpenUI -= SoundManager.Instance.PauseSFXLoop;
@@ -324,6 +331,18 @@ public class UIManager : MonoBehaviour
 
     #region 업데이트
     public void ResetUI() => playTime = 0;
+
+    public void UpdateSpeed(float _speed)
+    {
+        if (!Mathf.Approximately(speedSlider.value, _speed))
+            speedSlider.value = _speed;
+    }
+
+    public void UpdateSens(float _sens)
+    {
+        if (!Mathf.Approximately(sensSlider.value, _sens))
+            sensSlider.value = _sens;
+    }
 
     public void UpdatePlayTime()
     {

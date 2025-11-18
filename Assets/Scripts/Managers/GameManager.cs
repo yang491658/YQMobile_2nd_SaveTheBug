@@ -13,6 +13,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private float speed = 1f;
     [SerializeField] private float minSpeed = 0.5f;
     [SerializeField] private float maxSpeed = 2f;
+    public event System.Action<float> OnChangeSpeed;
 
     [Header("Score")]
     [SerializeField] private int score = 0;
@@ -261,6 +262,7 @@ public class GameManager : MonoBehaviour
     {
         speed = Mathf.Clamp(_speed, minSpeed, maxSpeed);
         if (!IsPaused) Time.timeScale = speed;
+        OnChangeSpeed?.Invoke(speed);
     }
     #endregion
 

@@ -31,6 +31,7 @@ public class HandleManager : MonoBehaviour
     [SerializeField] private float sens = 1f;
     [SerializeField] private float minSens = 0.5f;
     [SerializeField] private float maxSens = 2f;
+    public event System.Action<float> OnChangeSens;
 
     [Header("Aim")]
     [SerializeField] private bool aimVisible = false;
@@ -387,7 +388,10 @@ public class HandleManager : MonoBehaviour
         handle.gameObject.SetActive(false);
     }
     public void SetSens(float _value)
-        => sens = Mathf.Clamp(_value, minSens, maxSens);
+    {
+        sens = Mathf.Clamp(_value, minSens, maxSens);
+        OnChangeSens?.Invoke(sens);
+    }
     #endregion
 
     #region GET

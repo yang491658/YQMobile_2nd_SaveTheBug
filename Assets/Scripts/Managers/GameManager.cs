@@ -91,8 +91,6 @@ public class GameManager : MonoBehaviour
     {
         Pause(false);
         IsGameOver = false;
-        ResetScore();
-        ResetLevel();
 
         SoundManager.Instance?.PlayBGM("Default");
 
@@ -104,9 +102,62 @@ public class GameManager : MonoBehaviour
         UIManager.Instance?.OpenUI(false);
 
         HandleManager.Instance?.SetHandle();
-
+        
+        ResetScore();
+        ResetLevel();
         if (level == 0) LevelUp();
     }
+
+    #region 진행
+    public void Pause(bool _pause)
+    {
+        if (IsPaused == _pause) return;
+
+        IsPaused = _pause;
+        Time.timeScale = _pause ? 0f : speed;
+    }
+
+    private void ActWithReward(System.Action _act)
+    {
+        if (ADManager.Instance != null) ADManager.Instance?.ShowReward(_act);
+        else _act?.Invoke();
+    }
+
+    public void Replay()
+    {
+#if UNITY_WEBGL && !UNITY_EDITOR
+        ReplayReact();
+#else
+        ActWithReward(ReplayGame);
+#endif
+    }
+    private void ReplayGame() => SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+
+    public void Quit() => ActWithReward(QuitGame);
+    private void QuitGame()
+    {
+        Time.timeScale = 1f;
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+#else
+        Application.Quit();
+#endif
+    }
+
+    public void GameOver()
+    {
+        if (IsGameOver) return;
+        IsGameOver = true;
+
+        Pause(true);
+        SoundManager.Instance?.GameOver();
+        UIManager.Instance?.OpenResult(true);
+
+#if UNITY_WEBGL && !UNITY_EDITOR
+        GameOverReact();
+#endif
+    }
+    #endregion
 
     #region 점수
     public void ScoreUp(int _score = 1)
@@ -203,57 +254,6 @@ public class GameManager : MonoBehaviour
         point = 0;
 
         OnChangePoint?.Invoke(point);
-    }
-    #endregion
-
-    #region 진행
-    public void Pause(bool _pause)
-    {
-        if (IsPaused == _pause) return;
-
-        IsPaused = _pause;
-        Time.timeScale = _pause ? 0f : speed;
-    }
-
-    private void ActWithReward(System.Action _act)
-    {
-        if (ADManager.Instance != null) ADManager.Instance?.ShowReward(_act);
-        else _act?.Invoke();
-    }
-
-    public void Replay()
-    {
-#if UNITY_WEBGL && !UNITY_EDITOR
-        ReplayReact();
-#else
-        ActWithReward(ReplayGame);
-#endif
-    }
-    private void ReplayGame() => SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
-
-    public void Quit() => ActWithReward(QuitGame);
-    private void QuitGame()
-    {
-        Time.timeScale = 1f;
-#if UNITY_EDITOR
-        UnityEditor.EditorApplication.isPlaying = false;
-#else
-        Application.Quit();
-#endif
-    }
-
-    public void GameOver()
-    {
-        if (IsGameOver) return;
-        IsGameOver = true;
-
-        Pause(true);
-        SoundManager.Instance?.GameOver();
-        UIManager.Instance?.OpenResult(true);
-
-#if UNITY_WEBGL && !UNITY_EDITOR
-        GameOverReact();
-#endif
     }
     #endregion
 

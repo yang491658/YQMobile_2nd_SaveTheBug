@@ -33,6 +33,10 @@ public class TestManager : MonoBehaviour
             GameManager.Instance?.Pause(!GameManager.Instance.IsPaused);
         if (Input.GetKeyDown(KeyCode.G))
             GameManager.Instance?.GameOver();
+        if (Input.GetKeyDown(KeyCode.R))
+            GameManager.Instance?.Replay();
+        if (Input.GetKeyDown(KeyCode.Q))
+            GameManager.Instance?.Quit();
 
         if (Input.GetKeyDown(KeyCode.O))
         {
@@ -41,14 +45,9 @@ public class TestManager : MonoBehaviour
             GameManager.Instance?.SetSpeed(isAuto ? GameManager.Instance.GetMaxSpeed() : 1f);
             GameManager.Instance?.Replay();
         }
-        if (isAuto)
+        if (isAuto && !GameManager.Instance.IsPaused)
             if (GameManager.Instance.IsGameOver && autoRoutine == null)
                 autoRoutine = StartCoroutine(AutoReplay());
-
-        if (Input.GetKeyDown(KeyCode.R))
-            GameManager.Instance?.Replay();
-        if (Input.GetKeyDown(KeyCode.Q))
-            GameManager.Instance?.Quit();
 
         if (Input.GetKeyDown(KeyCode.L))
             GameManager.Instance?.LevelUp();
@@ -98,7 +97,8 @@ public class TestManager : MonoBehaviour
             EntityManager.Instance?.SpawnEnemy();
         if (Input.GetKey(KeyCode.T))
             EntityManager.Instance?.SpawnItem();
-        if (Input.GetKeyDown(KeyCode.Delete)) EntityManager.Instance?.DespawnAll();
+        if (Input.GetKeyDown(KeyCode.Delete))
+            EntityManager.Instance?.DespawnAll();
         #endregion
 
         #region UI 테스트

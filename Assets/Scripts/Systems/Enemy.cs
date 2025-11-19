@@ -11,7 +11,7 @@ public class Enemy : Entity
 #if UNITY_EDITOR
     private void OnValidate()
     {
-        data = AssetDatabase.LoadAssetAtPath<EntityData>("Assets/Scripts/ScriptableObjects/Enemy.asset");
+        data = AssetDatabase.LoadAssetAtPath<EntityData>("Assets/Datas/Enemy.asset");
     }
 #endif
 
@@ -19,7 +19,7 @@ public class Enemy : Entity
     {
         base.Awake();
 
-        SetData(data);
+        SetData(data.Clone());
     }
 
     protected override void Start()

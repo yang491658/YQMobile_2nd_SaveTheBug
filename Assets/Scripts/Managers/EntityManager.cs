@@ -51,11 +51,11 @@ public class EntityManager : MonoBehaviour
     private void OnValidate()
     {
         if (enemyBase == null)
-            enemyBase = AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Prefabs/EnemyBase.prefab");
+            enemyBase = AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Prefabs/Enemy.prefab");
         if (itemBase == null)
-            itemBase = AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Prefabs/ItemBase.prefab");
+            itemBase = AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Prefabs/Item.prefab");
 
-        string[] guids = AssetDatabase.FindAssets("t:ItemData", new[] { "Assets/Scripts/ScriptableObjects" });
+        string[] guids = AssetDatabase.FindAssets("t:ItemData", new[] { "Assets/Datas/Items" });
         var list = new List<ItemData>(guids.Length);
         for (int i = 0; i < guids.Length; i++)
         {

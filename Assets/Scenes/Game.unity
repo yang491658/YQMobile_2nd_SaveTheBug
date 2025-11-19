@@ -10824,9 +10824,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   testCount: 1
-  isAutoPlay: 0
-  isAutoReplay: 0
-  replayTime: 1
+  autoDelay: 1
   bgmPause: 0
 --- !u!4 &1407473050
 Transform:
@@ -11965,7 +11963,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1638876044
 MonoBehaviour:
   m_ObjectHideFlags: 0

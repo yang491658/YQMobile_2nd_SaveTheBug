@@ -9,7 +9,7 @@ public class Player : Entity
 #if UNITY_EDITOR
     private void OnValidate()
     {
-        data = AssetDatabase.LoadAssetAtPath<EntityData>("Assets/Scripts/ScriptableObjects/Player.asset");
+        data = AssetDatabase.LoadAssetAtPath<EntityData>("Assets/Datas/Player.asset");
     }
 #endif
 
@@ -17,7 +17,7 @@ public class Player : Entity
     {
         base.Awake();
 
-        SetData(data);
+        SetData(data.Clone());
     }
 
     private void OnTriggerStay2D(Collider2D _collision)

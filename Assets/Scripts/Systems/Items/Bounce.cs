@@ -15,7 +15,7 @@ public class Bounce : Item
     [SerializeField] private float speedRatio = 5f;
     [SerializeField] private float minSpeed = 5f;
     private Vector3 direction = Vector3.up;
-
+    [Space]
     [SerializeField] private int bounce = 3;
     [SerializeField] private int bounceBonus = 1;
     [SerializeField] private float duration = 10f;

@@ -18,7 +18,7 @@ public class Shield : Item
     [SerializeField] private int countBonus = 1;
     [SerializeField] private float gap = 2f;
     private Vector3 offset;
-
+    [Space]
     private bool isFired = false;
     [SerializeField] private float duration = 5f;
     [SerializeField] private float durationBonus = 5f;

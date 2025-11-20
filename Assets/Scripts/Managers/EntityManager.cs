@@ -17,14 +17,14 @@ public class EntityManager : MonoBehaviour
 
     private enum SpawnKind { Enemy, Item }
 
-    [Header("Data Setting")]
+    [Header("Data")]
     [SerializeField] private GameObject enemyBase;
     [SerializeField] private GameObject itemBase;
     [SerializeField] private ItemData[] itemDatas;
     private readonly Dictionary<int, ItemData> itemDic = new Dictionary<int, ItemData>();
     private readonly Dictionary<string, System.Type> itemTypeDic = new Dictionary<string, System.Type>();
 
-    [Header("Spawn Settings")]
+    [Header("Spawn")]
     [SerializeField] private int eMinCount = 1;
     [SerializeField] private int eMaxCount = 1;
     [SerializeField][Min(0.05f)] private float eDelay = 5;
@@ -35,7 +35,7 @@ public class EntityManager : MonoBehaviour
     private float iDelayBase;
     private Coroutine spawnRoutine;
 
-    [Header("Entities")]
+    [Header("InGame")]
     [SerializeField] private Transform inGame;
     [SerializeField] private Transform player;
     [SerializeField] private Transform enemyTrans;

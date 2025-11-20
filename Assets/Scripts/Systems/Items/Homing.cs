@@ -23,7 +23,7 @@ public class Homing : Item
     [SerializeField] private float angle = 60f;
     [SerializeField] private float speed = 10f;
     private Vector3 direction = Vector3.up;
-
+    [Space]
     private Vector3 basePos;
     [SerializeField] private float distance = 5f;
     [SerializeField] private float duration = 3f;

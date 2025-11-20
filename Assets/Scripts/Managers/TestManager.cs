@@ -1,5 +1,4 @@
-﻿#if UNITY_EDITOR
-using System.Collections;
+﻿using System.Collections;
 using UnityEngine;
 
 public class TestManager : MonoBehaviour
@@ -124,4 +123,3 @@ public class TestManager : MonoBehaviour
         autoRoutine = null;
     }
 }
-#endif

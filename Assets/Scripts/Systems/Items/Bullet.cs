@@ -49,7 +49,8 @@ public class Bullet : Item
 
     private IEnumerator CopySelfCoroutine()
     {
-        for (int i = 0; i < count + countBonus * bonusStat; i++)
+        int totalCount = count + countBonus * bonusStat;
+        for (int i = 0; i < totalCount; i++)
         {
             Bullet copy = EntityManager.Instance?.SpawnItem(data.ID, player.transform.position)
                 .GetComponent<Bullet>();

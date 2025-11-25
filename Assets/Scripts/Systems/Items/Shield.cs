@@ -82,7 +82,8 @@ public class Shield : Item
             diag * Vector3.left,
         };
 
-        for (int i = 0; i < count + countBonus * bonusStat; i++)
+        int totalCount = count + countBonus * bonusStat;
+        for (int i = 0; i < totalCount; i++)
         {
             Shield copy = EntityManager.Instance?.SpawnItem(data.ID, player.transform.position + offs[i])
                 .GetComponent<Shield>();

@@ -51,8 +51,9 @@ public class Spiral : Item
     private IEnumerator CopySelfCoroutine()
     {
         Vector3 baseDir = player.transform.up;
-
-        for (int i = 0; i < count + countBonus * bonusStat; i++)
+        
+        int totalCount = count + countBonus * bonusStat;
+        for (int i = 0; i < totalCount; i++)
         {
             Vector3 dir = Quaternion.Euler(0f, 0f, -angle * i) * baseDir;
 

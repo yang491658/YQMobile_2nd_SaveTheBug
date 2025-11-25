@@ -92,8 +92,8 @@ public class UIManager : MonoBehaviour
             ageUI = GameObject.Find("AgeUI");
         if (ageImage == null)
             ageImage = GameObject.Find("AgeUI/AgeImage")?.GetComponent<Image>();
-        if (ageOutLine== null)
-            ageOutLine= GameObject.Find("AgeUI/AgeImage/OutLine")?.GetComponent<Image>();
+        if (ageOutLine == null)
+            ageOutLine = GameObject.Find("AgeUI/AgeImage/OutLine")?.GetComponent<Image>();
 
         if (inGameUI == null)
             inGameUI = GameObject.Find("InGameUI");

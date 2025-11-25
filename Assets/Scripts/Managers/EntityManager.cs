@@ -130,7 +130,6 @@ public class EntityManager : MonoBehaviour
         return pick;
     }
 
-
     public Item SpawnItem(int _id = 0, Vector3? _pos = null)
     {
         ItemData data = (_id == 0)

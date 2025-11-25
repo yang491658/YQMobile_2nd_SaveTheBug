@@ -55,16 +55,12 @@ public class UIManager : MonoBehaviour
 
     [Header("InGame UI")]
     [SerializeField] private GameObject inGameUI;
-    [Space]
     [SerializeField] private TextMeshProUGUI playTimeText;
     private bool onPlayTime = false;
     private float playTime = 0f;
-    [Space]
     [SerializeField] private TextMeshProUGUI scoreNum;
-    [Space]
     [SerializeField] private TextMeshProUGUI levelText;
     [SerializeField] private TextMeshProUGUI itemText;
-    [Space]
     [SerializeField] private Slider expSlider;
     [SerializeField] private TextMeshProUGUI expText;
 

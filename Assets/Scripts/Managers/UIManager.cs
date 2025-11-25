@@ -340,15 +340,18 @@ public class UIManager : MonoBehaviour
 
             SoundManager.Instance?.PlaySFX("Count");
 
-            yield return null;
+            float start = Time.realtimeSinceStartup;
 
-            float time = 0f;
-            while (time < duration)
+            while (true)
             {
-                time += Time.unscaledDeltaTime;
-                float t = time / duration;
+                float elapsed = Time.realtimeSinceStartup - start;
+                float t = Mathf.Clamp01(elapsed / duration);
                 float scale = 1f + Mathf.Sin(t * Mathf.PI) * (maxScale - 1f);
                 countText.rectTransform.localScale = Vector3.one * scale;
+
+                if (elapsed >= duration)
+                    break;
+
                 yield return null;
             }
         }

@@ -92,14 +92,13 @@ public class GameManager : MonoBehaviour
         Pause(false);
         IsGameOver = false;
 
-        SoundManager.Instance?.PlayBGM("Default");
-
         EntityManager.Instance?.ResetEntity();
         EntityManager.Instance?.SetEntity();
         EntityManager.Instance?.ToggleSpawn(true);
 
         UIManager.Instance?.ResetUI();
         UIManager.Instance?.OpenUI(false);
+        UIManager.Instance?.StartCountdown();
 
         HandleManager.Instance?.SetHandle();
         

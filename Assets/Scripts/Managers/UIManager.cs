@@ -48,11 +48,20 @@ public class UIManager : MonoBehaviour
 
     [Header("InGame UI")]
     [SerializeField] private GameObject inGameUI;
+    [SerializeField] private TextMeshProUGUI countText;
+    private Coroutine countRoutine;
+    [SerializeField] private float countDuration = 1f;
+    [SerializeField] private float countScale = 10f;
+    [Space]
     [SerializeField] private TextMeshProUGUI playTimeText;
+    private bool onPlayTime = false;
     private float playTime = 0f;
+    [Space]
     [SerializeField] private TextMeshProUGUI scoreNum;
+    [Space]
     [SerializeField] private TextMeshProUGUI levelText;
     [SerializeField] private TextMeshProUGUI itemText;
+    [Space]
     [SerializeField] private Slider expSlider;
     [SerializeField] private TextMeshProUGUI expText;
 
@@ -94,6 +103,9 @@ public class UIManager : MonoBehaviour
             ageImage = GameObject.Find("AgeUI/AgeImage")?.GetComponent<Image>();
         if (ageOutLine == null)
             ageOutLine = GameObject.Find("AgeUI/AgeImage/OutLine")?.GetComponent<Image>();
+
+        if (countText == null)
+            countText = GameObject.Find("CountText")?.GetComponent<TextMeshProUGUI>();
 
         if (inGameUI == null)
             inGameUI = GameObject.Find("InGameUI");
@@ -200,7 +212,7 @@ public class UIManager : MonoBehaviour
         {
             showAge = true;
             ageUI.SetActive(true);
-            StartCoroutine(FadeAge());
+            StartCoroutine(FadeCoroutine());
         }
         else ageUI.SetActive(false);
     }
@@ -208,8 +220,12 @@ public class UIManager : MonoBehaviour
     private void Update()
     {
         if (GameManager.Instance.IsGameOver) return;
+        
+        if (onPlayTime)
+            onPlayTime = false;
+        else
+            playTime += Time.unscaledDeltaTime;
 
-        playTime += Time.unscaledDeltaTime;
         UpdatePlayTime();
         UpdateItemText();
     }
@@ -266,7 +282,7 @@ public class UIManager : MonoBehaviour
         OnOpenUI -= SoundManager.Instance.PauseSFXLoop;
     }
 
-    private IEnumerator FadeAge()
+    private IEnumerator FadeCoroutine()
     {
         Color imgColor = ageImage.color;
         Color outlineColor = ageOutLine.color;
@@ -298,6 +314,53 @@ public class UIManager : MonoBehaviour
         ageImage.color = imgColor;
         ageOutLine.color = outlineColor;
         ageUI.SetActive(false);
+    }
+
+    public void StartCountdown()
+    {
+        if (countRoutine != null) StopCoroutine(countRoutine);
+        countRoutine = StartCoroutine(CountCoroutine());
+    }
+
+    private IEnumerator CountCoroutine()
+    {
+        GameManager.Instance?.Pause(true);
+        SoundManager.Instance?.StopBGM();
+        inGameUI.SetActive(false);
+
+        float duration = countDuration;
+        float maxScale = countScale;
+
+        countText.gameObject.SetActive(true);
+
+        for (int i = 3; i > 0; i--)
+        {
+            countText.text = i.ToString();
+            countText.rectTransform.localScale = Vector3.one;
+
+            SoundManager.Instance?.PlaySFX("Count");
+
+            yield return null;
+
+            float time = 0f;
+            while (time < duration)
+            {
+                time += Time.unscaledDeltaTime;
+                float t = time / duration;
+                float scale = 1f + Mathf.Sin(t * Mathf.PI) * (maxScale - 1f);
+                countText.rectTransform.localScale = Vector3.one * scale;
+                yield return null;
+            }
+        }
+
+        countText.gameObject.SetActive(false);
+        countText.rectTransform.localScale = Vector3.one;
+
+        GameManager.Instance?.Pause(false);
+        SoundManager.Instance?.PlayBGM("Default");
+        inGameUI.SetActive(true);
+
+        countRoutine = null;
     }
 
     #region 오픈
@@ -387,7 +450,11 @@ public class UIManager : MonoBehaviour
     #endregion
 
     #region 업데이트
-    public void ResetUI() => playTime = 0;
+    public void ResetUI()
+    {
+        playTime = 0f;
+        onPlayTime = true;
+    }
 
     public void UpdateSpeed(float _speed)
     {

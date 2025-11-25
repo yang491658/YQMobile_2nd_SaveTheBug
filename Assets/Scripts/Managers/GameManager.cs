@@ -96,11 +96,11 @@ public class GameManager : MonoBehaviour
         EntityManager.Instance?.SetEntity();
         EntityManager.Instance?.ToggleSpawn(true);
 
+        HandleManager.Instance?.SetHandle();
+
         UIManager.Instance?.ResetUI();
         UIManager.Instance?.OpenUI(false);
         UIManager.Instance?.StartCountdown();
-
-        HandleManager.Instance?.SetHandle();
         
         ResetScore();
         ResetLevel();

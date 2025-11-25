@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -37,6 +38,13 @@ public class UIManager : MonoBehaviour
     public static UIManager Instance { private set; get; }
 
     public event System.Action<bool> OnOpenUI;
+
+    [Header("Age UI")]
+    [SerializeField] private GameObject ageUI;
+    [SerializeField] private Image ageImage;
+    [SerializeField] private Image ageOutLine;
+    [SerializeField] private float fadeDuration = 3f;
+    private static bool showAge = false;
 
     [Header("InGame UI")]
     [SerializeField] private GameObject inGameUI;
@@ -80,6 +88,13 @@ public class UIManager : MonoBehaviour
 #if UNITY_EDITOR
     private void OnValidate()
     {
+        if (ageUI == null)
+            ageUI = GameObject.Find("AgeUI");
+        if (ageImage == null)
+            ageImage = GameObject.Find("AgeUI/AgeImage")?.GetComponent<Image>();
+        if (ageOutLine== null)
+            ageOutLine= GameObject.Find("AgeUI/AgeImage/OutLine")?.GetComponent<Image>();
+
         if (inGameUI == null)
             inGameUI = GameObject.Find("InGameUI");
         if (playTimeText == null)
@@ -180,6 +195,14 @@ public class UIManager : MonoBehaviour
         UpdatePoint(GameManager.Instance.GetPoint());
 
         prevPoint = GameManager.Instance.GetPoint();
+
+        if (!showAge)
+        {
+            showAge = true;
+            ageUI.SetActive(true);
+            StartCoroutine(FadeAge());
+        }
+        else ageUI.SetActive(false);
     }
 
     private void Update()
@@ -241,6 +264,40 @@ public class UIManager : MonoBehaviour
 
         OnOpenUI -= GameManager.Instance.Pause;
         OnOpenUI -= SoundManager.Instance.PauseSFXLoop;
+    }
+
+    private IEnumerator FadeAge()
+    {
+        Color imgColor = ageImage.color;
+        Color outlineColor = ageOutLine.color;
+
+        imgColor.a = 1f;
+        outlineColor.a = 1f;
+        ageImage.color = imgColor;
+        ageOutLine.color = outlineColor;
+
+        float time = 0f;
+        float duration = fadeDuration;
+
+        while (time < duration)
+        {
+            time += Time.unscaledDeltaTime;
+            float t = Mathf.Clamp01(time / duration);
+            float a = Mathf.Lerp(1f, 0f, t);
+
+            imgColor.a = a;
+            outlineColor.a = a;
+            ageImage.color = imgColor;
+            ageOutLine.color = outlineColor;
+
+            yield return null;
+        }
+
+        imgColor.a = 0f;
+        outlineColor.a = 0f;
+        ageImage.color = imgColor;
+        ageOutLine.color = outlineColor;
+        ageUI.SetActive(false);
     }
 
     #region 오픈

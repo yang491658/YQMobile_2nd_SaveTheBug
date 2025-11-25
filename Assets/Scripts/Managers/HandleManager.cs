@@ -29,14 +29,15 @@ public class HandleManager : MonoBehaviour
 
     [Header("Sensitivity")]
     [SerializeField] private float sens = 1f;
-    [SerializeField] private float minSens = 0.5f;
-    [SerializeField] private float maxSens = 2f;
+    [SerializeField] private float minSens = 0.3f;
+    [SerializeField] private float maxSens = 3f;
     public event System.Action<float> OnChangeSens;
 
     [Header("Aim")]
-    [SerializeField] private bool aimVisible = false;
+    [SerializeField] private bool aimVisible = true;
     [SerializeField] private Transform ring;
     [SerializeField] private Transform handle;
+    [SerializeField] private float aimRatio = 0.35f;
 
 #if UNITY_EDITOR
     [Header("Mark")]
@@ -297,9 +298,22 @@ public class HandleManager : MonoBehaviour
     {
         if (aimVisible)
         {
-            float scale = 2f * Vector3.Distance(_start, _current);
-            ring.localScale = new Vector3(scale, scale, scale) + handle.localScale;
-            handle.position = _current;
+            Vector3 dir = _current - _start;
+            float distance = dir.magnitude;
+
+            if (distance > 0f)
+            {
+                float scaledDistance = distance * aimRatio;
+                Vector3 handlePos = _start + dir * (scaledDistance / distance);
+                float scale = 2f * scaledDistance;
+                ring.localScale = new Vector3(scale, scale, scale);
+                handle.position = handlePos;
+            }
+            else
+            {
+                ring.localScale = Vector3.zero;
+                handle.position = _start;
+            }
         }
 
         player.Move((_current - _start) * sens);

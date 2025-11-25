@@ -117,17 +117,19 @@ public class EntityManager : MonoBehaviour
     {
         ItemData pick = null;
         int k = 0;
+        int level = GameManager.Instance.GetLevel();
 
         for (int i = 0; i < itemDatas.Length; i++)
         {
             var d = itemDatas[i];
-            if (d != null && d.Level <= GameManager.Instance.GetLevel())
+            if (d != null && d.Level <= level)
                 if (Random.Range(0, ++k) == 0)
                     pick = d;
         }
 
         return pick;
     }
+
 
     public Item SpawnItem(int _id = 0, Vector3? _pos = null)
     {
@@ -372,7 +374,7 @@ public class EntityManager : MonoBehaviour
                 continue;
             }
 
-            Clone clone = items[i].GetComponent<Clone>();
+            Clone clone = it.GetComponent<Clone>();
             if (clone != null && clone.isActive)
                 return clone;
         }

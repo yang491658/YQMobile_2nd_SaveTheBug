@@ -46,12 +46,15 @@ public class UIManager : MonoBehaviour
     [SerializeField] private float fadeDuration = 3f;
     private static bool showAge = false;
 
-    [Header("InGame UI")]
-    [SerializeField] private GameObject inGameUI;
+    [Header("Count UI")]
     [SerializeField] private TextMeshProUGUI countText;
     private Coroutine countRoutine;
+    [SerializeField] private int countStart = 3;
     [SerializeField] private float countDuration = 1f;
     [SerializeField] private float countScale = 10f;
+
+    [Header("InGame UI")]
+    [SerializeField] private GameObject inGameUI;
     [Space]
     [SerializeField] private TextMeshProUGUI playTimeText;
     private bool onPlayTime = false;
@@ -333,7 +336,7 @@ public class UIManager : MonoBehaviour
 
         countText.gameObject.SetActive(true);
 
-        for (int i = 3; i > 0; i--)
+        for (int i = countStart; i > 0; i--)
         {
             countText.text = i.ToString();
             countText.rectTransform.localScale = Vector3.one;

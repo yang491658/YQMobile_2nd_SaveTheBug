@@ -393,7 +393,7 @@ public class UIManager : MonoBehaviour
 
         OnOpenUI?.Invoke(_on);
 
-        var datas = EntityManager.Instance?.GetDatas();
+        var datas = EntityManager.Instance?.GetItemDatas();
         for (int i = 0; i < statItems.Count; i++)
         {
             var item = datas[i];
@@ -506,7 +506,7 @@ public class UIManager : MonoBehaviour
     public void UpdateLevel(int _level)
     {
         bool newItem = false;
-        var datas = EntityManager.Instance?.GetDatas();
+        var datas = EntityManager.Instance?.GetItemDatas();
         if (datas != null)
         {
             for (int i = 0; i < datas.Count; i++)
@@ -554,7 +554,7 @@ public class UIManager : MonoBehaviour
 
         if (statUI.activeSelf)
         {
-            var datas = EntityManager.Instance?.GetDatas();
+            var datas = EntityManager.Instance?.GetItemDatas();
             for (int i = 0; i < statItems.Count; i++)
                 UpdateStat(i, datas[i]);
         }
@@ -650,7 +650,7 @@ public class UIManager : MonoBehaviour
     public void OnClickSFX() => SoundManager.Instance?.ToggleSFX();
 
     public void OnClickStat() => OpenStat(true);
-    public void OnClickStatUp(int _index) => EntityManager.Instance?.GetDatas()[_index].StatUp();
+    public void OnClickStatUp(int _index) => EntityManager.Instance?.GetItemDatas()[_index].StatUp();
     public void OnClickReset() => OpenConfirm(true, "초기화", EntityManager.Instance.Reset);
 
     public void OnClickReplay() => OpenConfirm(true, "다시", GameManager.Instance.Replay);

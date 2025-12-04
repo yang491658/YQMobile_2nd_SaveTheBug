@@ -84,7 +84,7 @@ public class EntityManager : MonoBehaviour
     #region 적
     public int CalcEnemyCount()
     {
-        int n = GameManager.Instance.GetScore() / 1000;
+        int n = GameManager.Instance.GetScore() / 100;
         eMinCount = 1 + n;
         eMaxCount = 1 + 2 * n;
         return Random.Range(eMinCount, eMaxCount + 1);
@@ -360,8 +360,22 @@ public class EntityManager : MonoBehaviour
     #endregion
 
     #region GET
-    public IReadOnlyList<ItemData> GetDatas() => itemDatas;
     public Player GetPlayer() => player.GetComponent<Player>();
+    public Enemy GetEnemyClosest(Vector3 _pos)
+    {
+        if (enemies.Count == 0) return null;
+        Enemy target = enemies[0];
+        float min = (target.transform.position - _pos).sqrMagnitude;
+        for (int i = 1; i < enemies.Count; i++)
+        {
+            Enemy e = enemies[i];
+            float d = (e.transform.position - _pos).sqrMagnitude;
+            if (d < min) { min = d; target = e; }
+        }
+        return target;
+    }
+    public IReadOnlyList<ItemData> GetItemDatas() => itemDatas;
+    public IReadOnlyList<Item> GetItems() => items;
     public Item GetClone()
     {
         for (int i = 0; i < items.Count; i++)
@@ -378,19 +392,6 @@ public class EntityManager : MonoBehaviour
                 return clone;
         }
         return null;
-    }
-    public Enemy GetEnemyClosest(Vector3 _pos)
-    {
-        if (enemies.Count == 0) return null;
-        Enemy target = enemies[0];
-        float min = (target.transform.position - _pos).sqrMagnitude;
-        for (int i = 1; i < enemies.Count; i++)
-        {
-            Enemy e = enemies[i];
-            float d = (e.transform.position - _pos).sqrMagnitude;
-            if (d < min) { min = d; target = e; }
-        }
-        return target;
     }
     #endregion
 }

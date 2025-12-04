@@ -25,6 +25,11 @@ public class TestManager : MonoBehaviour
         DontDestroyOnLoad(gameObject);
     }
 
+    private void Start()
+    {
+        AutoPlay();
+    }
+
     private void Update()
     {
         #region 게임 테스트
@@ -40,8 +45,12 @@ public class TestManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.O))
             AutoPlay();
         if (isAuto)
+        {
+            MoveItem();
+
             if (GameManager.Instance.IsGameOver && autoRoutine == null)
                 autoRoutine = StartCoroutine(AutoReplay());
+        }
 
         if (Input.GetKeyDown(KeyCode.L))
             GameManager.Instance?.LevelUp();
@@ -112,6 +121,7 @@ public class TestManager : MonoBehaviour
         isAuto = !isAuto;
 
         GameManager.Instance?.SetSpeed(isAuto ? GameManager.Instance.GetMaxSpeed() : 1f);
+        SoundManager.Instance?.ToggleBGM();
     }
 
     private IEnumerator AutoReplay()
@@ -123,5 +133,19 @@ public class TestManager : MonoBehaviour
             GameManager.Instance?.Replay();
         }
         autoRoutine = null;
+    }
+
+    private void MoveItem()
+    {
+        var items = EntityManager.Instance.GetItems();
+        Player player = EntityManager.Instance.GetPlayer();
+        Vector3 targetPos = player.transform.position;
+
+        for (int i = 0; i < items.Count; i++)
+        {
+            Item item = items[i];
+            if (!item.isActive)
+                item.transform.position = targetPos;
+        }
     }
 }

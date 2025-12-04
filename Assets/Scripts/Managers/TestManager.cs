@@ -47,6 +47,7 @@ public class TestManager : MonoBehaviour
         if (isAuto)
         {
             MoveItem();
+            if (!GameManager.Instance.IsPaused) RandomStatUp();
 
             if (GameManager.Instance.IsGameOver && autoRoutine == null)
                 autoRoutine = StartCoroutine(AutoReplay());
@@ -122,6 +123,7 @@ public class TestManager : MonoBehaviour
 
         GameManager.Instance?.SetSpeed(isAuto ? GameManager.Instance.GetMaxSpeed() : 1f);
         SoundManager.Instance?.ToggleBGM();
+        SoundManager.Instance?.ToggleSFX();
     }
 
     private IEnumerator AutoReplay()
@@ -137,8 +139,8 @@ public class TestManager : MonoBehaviour
 
     private void MoveItem()
     {
-        var items = EntityManager.Instance.GetItems();
-        Player player = EntityManager.Instance.GetPlayer();
+        var items = EntityManager.Instance?.GetItems();
+        Player player = EntityManager.Instance?.GetPlayer();
         Vector3 targetPos = player.transform.position;
 
         for (int i = 0; i < items.Count; i++)
@@ -147,5 +149,19 @@ public class TestManager : MonoBehaviour
             if (!item.isActive)
                 item.transform.position = targetPos;
         }
+    }
+
+    private void RandomStatUp()
+    {
+        if (GameManager.Instance?.GetPoint() <= 0)
+            return;
+
+        var datas = EntityManager.Instance?.GetItemDatas();
+        if (datas.Count == 0)
+            return;
+
+        int index = Random.Range(0, datas.Count);
+        ItemData item = datas[index];
+        item.StatUp();
     }
 }

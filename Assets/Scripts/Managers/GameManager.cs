@@ -12,7 +12,7 @@ public class GameManager : MonoBehaviour
     [Header("Speed")]
     [SerializeField] private float speed = 1f;
     [SerializeField] private float minSpeed = 0.5f;
-    [SerializeField] private float maxSpeed = 2f;
+    [SerializeField] private float maxSpeed = 3f;
     public event System.Action<float> OnChangeSpeed;
 
     [Header("Score")]
@@ -28,7 +28,7 @@ public class GameManager : MonoBehaviour
 
     [Header("Level")]
     [SerializeField][Min(0)] private int level = 0;
-    [SerializeField][Min(1)] private int maxLevel = 40;
+    [SerializeField][Min(1)] private int maxLevel = 50;
     public event System.Action<int> OnChangeLevel;
 
     [Header("Point")]
@@ -92,6 +92,10 @@ public class GameManager : MonoBehaviour
         Pause(false);
         IsGameOver = false;
 
+        ResetScore();
+        ResetLevel();
+        if (level == 0) LevelUp();
+
         EntityManager.Instance?.ResetEntity();
         EntityManager.Instance?.SetEntity();
         EntityManager.Instance?.ToggleSpawn(true);
@@ -101,10 +105,6 @@ public class GameManager : MonoBehaviour
         UIManager.Instance?.ResetUI();
         UIManager.Instance?.OpenUI(false);
         UIManager.Instance?.StartCountdown();
-        
-        ResetScore();
-        ResetLevel();
-        if (level == 0) LevelUp();
     }
 
     #region 진행

@@ -26,12 +26,8 @@ public class EntityManager : MonoBehaviour
 
     [Header("Spawn")]
     [SerializeField] private int eMinCount = 1;
-    [SerializeField] private int eMaxCount = 1;
-    [SerializeField][Min(0.05f)] private float eDelay = 5;
-    [SerializeField][Min(0.05f)] private float eMinDelay = 0.05f;
     [SerializeField][Min(0.05f)] private float iDelay = 10f;
     [SerializeField][Min(0.05f)] private float iMinDelay = 3f;
-    private float eDelayBase;
     private float iDelayBase;
     private Coroutine spawnRoutine;
 
@@ -82,13 +78,33 @@ public class EntityManager : MonoBehaviour
     }
 
     #region 적
-    public int CalcEnemyCount()
+    private int CalcEnemyCount()
     {
-        int n = GameManager.Instance.GetScore() / 100;
-        eMinCount = 1 + n;
-        eMaxCount = 1 + 2 * n;
-        return Random.Range(eMinCount, eMaxCount + 1);
+        int score = GameManager.Instance.GetScore();
+        int count = 1;
+        int scale = 100;
+        int start = 0;
+
+        while (true)
+        {
+            long endLong = (long)scale * 10;
+            int end = endLong > int.MaxValue ? int.MaxValue : (int)endLong;
+
+            int clamped = score < end ? score : end;
+            int segment = clamped - start;
+            if (segment > 0)
+                count += segment / scale;
+
+            if (score <= end || end == int.MaxValue)
+                break;
+
+            start = end;
+            scale *= 10;
+        }
+
+        return count;
     }
+
 
     public Enemy SpawnEnemy(Vector3? _pos = null)
     {
@@ -243,36 +259,24 @@ public class EntityManager : MonoBehaviour
 
     private IEnumerator SpawnCoroutine()
     {
-        float eTimer = eDelay;
         float iTimer = iDelay;
 
         while (true)
         {
             float dt = Time.deltaTime;
-            eTimer += dt;
             iTimer += dt;
 
-            eDelay = Mathf.Max(eDelay - dt / 50f, eMinDelay);
-            iDelay = Mathf.Max(iDelay - dt / 35f, iMinDelay);
-
-            int cnt = 0;
-            int count = CalcEnemyCount();
-            while (eTimer >= eDelay && cnt++ < 4)
+            eMinCount = CalcEnemyCount();
+            if (enemies.Count < eMinCount)
             {
-                for (int i = 0; i < count; i++)
-                {
-                    var enemy = SpawnEnemy();
-                    if (enemy == null)
-                    {
-                        eTimer = Mathf.Min(eTimer, eDelay);
-                        break;
-                    }
-                    eTimer -= eDelay;
-                    yield return new WaitForSeconds(0.01f);
-                }
+                int need = eMinCount - enemies.Count;
+                for (int i = 0; i < need; i++)
+                    SpawnEnemy();
             }
 
-            cnt = 0;
+            iDelay = Mathf.Max(iDelay - dt / 50f, iMinDelay);
+
+            int cnt = 0;
             while (iTimer >= iDelay && cnt++ < 4)
             {
                 var item = SpawnItem();
@@ -345,13 +349,12 @@ public class EntityManager : MonoBehaviour
 
         Vector3 c = new Vector3(AutoCamera.WorldRect.center.x, AutoCamera.WorldRect.yMin * 0.6f, 0f);
         player.transform.localPosition = c;
-        eDelayBase = eDelay;
         iDelayBase = iDelay;
     }
 
     public void ResetEntity()
     {
-        eDelay = eDelayBase;
+        eMinCount = 1;
         iDelay = iDelayBase;
 
         foreach (var item in itemDatas)
@@ -361,7 +364,17 @@ public class EntityManager : MonoBehaviour
 
     #region GET
     public Player GetPlayer() => player.GetComponent<Player>();
-    public Enemy GetEnemyClosest(Vector3 _pos)
+    public Enemy GetEnemy(int _num)
+    {
+        int count = enemies.Count;
+        if (count == 0) return null;
+
+        if (_num < 1) _num = 1;
+        else if (_num > count) _num = count;
+
+        return enemies[_num - 1];
+    }
+    public Enemy GetEnemy(Vector3 _pos)
     {
         if (enemies.Count == 0) return null;
         Enemy target = enemies[0];

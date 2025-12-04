@@ -55,8 +55,13 @@ public class Bullet : Item
             Bullet copy = EntityManager.Instance?.SpawnItem(data.ID, player.transform.position)
                 .GetComponent<Bullet>();
 
+            Enemy enemy = EntityManager.Instance.GetEnemy(i + 1);
+            Vector3 dir = player.transform.up;
+            if (enemy != null)
+                dir = (enemy.transform.position - player.transform.position).normalized;
+
             copy.SetClone();
-            copy.SetDirection(player.transform.up);
+            copy.SetDirection(dir);
             copy.UseItem();
 
             while ((copy.transform.position - player.transform.position).sqrMagnitude < scale * scale / 2f)
@@ -65,6 +70,7 @@ public class Bullet : Item
 
         EntityManager.Instance?.DespawnItem(this, 0f, true);
     }
+
 
     private void Shoot()
         => Move(direction * Mathf.Max(player.GetSpeed() * speedRatio, minSpeed));

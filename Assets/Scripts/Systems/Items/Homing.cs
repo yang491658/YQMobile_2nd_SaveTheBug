@@ -109,7 +109,7 @@ public class Homing : Item
             if (isHoming)
             {
                 if (target == null)
-                    target = EntityManager.Instance?.GetEnemyClosest(transform.position);
+                    target = EntityManager.Instance?.GetEnemy(transform.position);
 
                 if (target != null)
                     direction = (target.transform.position - transform.position).normalized;

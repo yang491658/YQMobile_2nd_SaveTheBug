@@ -32,8 +32,8 @@ public class Player : Entity
 
     private void OnTriggerEnter2D(Collider2D _collision)
     {
-        //if (_collision.CompareTag("Enemy"))
-        //    GameManager.Instance?.GameOver();
+        if (_collision.CompareTag("Enemy"))
+            GameManager.Instance?.GameOver();
 
         if (_collision.CompareTag("Item"))
             _collision.GetComponent<Item>().UseItem();

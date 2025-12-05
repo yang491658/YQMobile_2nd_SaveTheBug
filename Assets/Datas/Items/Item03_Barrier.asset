@@ -16,6 +16,6 @@ MonoBehaviour:
   Name: Barrier
   Image: {fileID: 21300000, guid: a7f76bef4156c264cbc5019dc18c51cf, type: 3}
   Sort: 4
-  Level: 1
+  Level: 3
   Stat: 1
   MaxStat: 10

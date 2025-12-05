@@ -147,7 +147,7 @@ public class TestManager : MonoBehaviour
         {
             Item item = items[i];
             if (!item.isActive)
-                item.transform.position = targetPos;
+                item.Move((targetPos - item.transform.position).normalized * 3.5f);
         }
     }
 

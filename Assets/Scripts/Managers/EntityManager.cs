@@ -364,6 +364,7 @@ public class EntityManager : MonoBehaviour
 
     #region GET
     public Player GetPlayer() => player.GetComponent<Player>();
+
     public Enemy GetEnemy(int _num)
     {
         int count = enemies.Count;
@@ -377,8 +378,10 @@ public class EntityManager : MonoBehaviour
     public Enemy GetEnemy(Vector3 _pos)
     {
         if (enemies.Count == 0) return null;
+
         Enemy target = enemies[0];
         float min = (target.transform.position - _pos).sqrMagnitude;
+
         for (int i = 1; i < enemies.Count; i++)
         {
             Enemy e = enemies[i];
@@ -387,6 +390,7 @@ public class EntityManager : MonoBehaviour
         }
         return target;
     }
+
     public IReadOnlyList<ItemData> GetItemDatas() => itemDatas;
     public IReadOnlyList<Item> GetItems() => items;
     public Item GetClone()

@@ -7,6 +7,7 @@ public class TestManager : MonoBehaviour
 
     [Header("Game Test")]
     [SerializeField] private int testCount = 1;
+    [SerializeField] private int maxScore = 0;
     [SerializeField] private bool isAuto = false;
     [SerializeField][Min(1f)] private float autoReplay = 1f;
     private Coroutine autoRoutine;
@@ -133,6 +134,7 @@ public class TestManager : MonoBehaviour
         if (GameManager.Instance.IsGameOver)
         {
             testCount++;
+            maxScore = Mathf.Max(GameManager.Instance.GetScore(), maxScore);
             GameManager.Instance?.Replay();
         }
         autoRoutine = null;

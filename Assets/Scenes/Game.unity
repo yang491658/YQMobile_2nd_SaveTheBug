@@ -328,6 +328,25 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 22769049}
   m_CullTransparentMesh: 1
+--- !u!114 &69693747
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4a41f9786e10cc74c89c54711f4abb29, type: 3}
+  m_Name: Bullet
+  m_EditorClassIdentifier: 
+  ID: 5
+  Name: Bullet
+  Image: {fileID: 21300000, guid: 651c90c572db2a44eacefc2b513479db, type: 3}
+  Sort: 6
+  Level: 5
+  Stat: 1
+  MaxStat: 10
 --- !u!1 &69725220
 GameObject:
   m_ObjectHideFlags: 0
@@ -913,25 +932,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &119993891
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4a41f9786e10cc74c89c54711f4abb29, type: 3}
-  m_Name: Shield
-  m_EditorClassIdentifier: 
-  ID: 8
-  Name: Shield
-  Image: {fileID: 21300000, guid: fb072df563b7a0145bbcf4d1bdc4dd3f, type: 3}
-  Sort: 5
-  Level: 15
-  Stat: 1
-  MaxStat: 6
 --- !u!1 &120901536
 GameObject:
   m_ObjectHideFlags: 0
@@ -2160,6 +2160,7 @@ MonoBehaviour:
   countStart: 3
   countDuration: 1
   countScale: 10
+  countSkip: 1
   inGameUI: {fileID: 463422171}
   playTimeText: {fileID: 1898468089}
   scoreNum: {fileID: 1222573071}
@@ -2663,25 +2664,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 273027856}
   m_CullTransparentMesh: 1
---- !u!114 &291238671
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4a41f9786e10cc74c89c54711f4abb29, type: 3}
-  m_Name: Barrier
-  m_EditorClassIdentifier: 
-  ID: 3
-  Name: Barrier
-  Image: {fileID: 21300000, guid: a7f76bef4156c264cbc5019dc18c51cf, type: 3}
-  Sort: 4
-  Level: 3
-  Stat: 1
-  MaxStat: 10
 --- !u!1 &300191449
 GameObject:
   m_ObjectHideFlags: 0
@@ -2818,25 +2800,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 300191449}
   m_CullTransparentMesh: 1
---- !u!114 &307906694
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4a41f9786e10cc74c89c54711f4abb29, type: 3}
-  m_Name: Spiral
-  m_EditorClassIdentifier: 
-  ID: 7
-  Name: Spiral
-  Image: {fileID: 21300000, guid: 2181a56bf2c4e094cb703f81cb80f440, type: 3}
-  Sort: 6
-  Level: 10
-  Stat: 1
-  MaxStat: 5
 --- !u!1 &368895224
 GameObject:
   m_ObjectHideFlags: 0
@@ -3048,6 +3011,25 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 390655763}
   m_CullTransparentMesh: 1
+--- !u!114 &461240950
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4a41f9786e10cc74c89c54711f4abb29, type: 3}
+  m_Name: Bomb
+  m_EditorClassIdentifier: 
+  ID: 1
+  Name: Bomb
+  Image: {fileID: 21300000, guid: 5bca15766ae391846a24f3a07cca4a14, type: 3}
+  Sort: 1
+  Level: 1
+  Stat: 1
+  MaxStat: 10
 --- !u!1 &463422171
 GameObject:
   m_ObjectHideFlags: 0
@@ -3123,6 +3105,25 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: -20, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &486204014
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4a41f9786e10cc74c89c54711f4abb29, type: 3}
+  m_Name: Bounce
+  m_EditorClassIdentifier: 
+  ID: 6
+  Name: Bounce
+  Image: {fileID: 21300000, guid: 4619f55d9f3d87b41b18129dacb284c6, type: 3}
+  Sort: 2
+  Level: 8
+  Stat: 1
+  MaxStat: 5
 --- !u!1 &486872600
 GameObject:
   m_ObjectHideFlags: 0
@@ -3625,25 +3626,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 533856286}
   m_CullTransparentMesh: 1
---- !u!114 &541137389
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4a41f9786e10cc74c89c54711f4abb29, type: 3}
-  m_Name: Bounce
-  m_EditorClassIdentifier: 
-  ID: 6
-  Name: Bounce
-  Image: {fileID: 21300000, guid: 4619f55d9f3d87b41b18129dacb284c6, type: 3}
-  Sort: 2
-  Level: 8
-  Stat: 1
-  MaxStat: 5
 --- !u!1 &565046922
 GameObject:
   m_ObjectHideFlags: 0
@@ -4221,6 +4203,25 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 610306554}
   m_CullTransparentMesh: 1
+--- !u!114 &619493681
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4a41f9786e10cc74c89c54711f4abb29, type: 3}
+  m_Name: Homing
+  m_EditorClassIdentifier: 
+  ID: 2
+  Name: Homing
+  Image: {fileID: 21300000, guid: 51d938faa7505564fae20e6fad17761c, type: 3}
+  Sort: 6
+  Level: 2
+  Stat: 1
+  MaxStat: 10
 --- !u!1 &633436421
 GameObject:
   m_ObjectHideFlags: 0
@@ -4708,6 +4709,25 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
+--- !u!114 &720379432
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4a41f9786e10cc74c89c54711f4abb29, type: 3}
+  m_Name: Missile
+  m_EditorClassIdentifier: 
+  ID: 4
+  Name: Missile
+  Image: {fileID: 21300000, guid: 24f405e6836666549929730557e40a84, type: 3}
+  Sort: 3
+  Level: 5
+  Stat: 1
+  MaxStat: 10
 --- !u!1 &724429577
 GameObject:
   m_ObjectHideFlags: 0
@@ -5559,25 +5579,6 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
---- !u!114 &831391112
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4a41f9786e10cc74c89c54711f4abb29, type: 3}
-  m_Name: Nuclear
-  m_EditorClassIdentifier: 
-  ID: 9
-  Name: Nuclear
-  Image: {fileID: 21300000, guid: d372d81d5deb7564ead8162db7bc6017, type: 3}
-  Sort: 7
-  Level: 20
-  Stat: 1
-  MaxStat: 4
 --- !u!1 &834979570
 GameObject:
   m_ObjectHideFlags: 0
@@ -6691,25 +6692,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 957990115}
   m_CullTransparentMesh: 1
---- !u!114 &964501176
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4a41f9786e10cc74c89c54711f4abb29, type: 3}
-  m_Name: Homing
-  m_EditorClassIdentifier: 
-  ID: 2
-  Name: Homing
-  Image: {fileID: 21300000, guid: 51d938faa7505564fae20e6fad17761c, type: 3}
-  Sort: 6
-  Level: 2
-  Stat: 1
-  MaxStat: 10
 --- !u!1 &964990577
 GameObject:
   m_ObjectHideFlags: 0
@@ -8395,6 +8377,25 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
+--- !u!114 &1150115465
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4a41f9786e10cc74c89c54711f4abb29, type: 3}
+  m_Name: Shield
+  m_EditorClassIdentifier: 
+  ID: 8
+  Name: Shield
+  Image: {fileID: 21300000, guid: fb072df563b7a0145bbcf4d1bdc4dd3f, type: 3}
+  Sort: 5
+  Level: 15
+  Stat: 1
+  MaxStat: 6
 --- !u!1 &1157494959
 GameObject:
   m_ObjectHideFlags: 0
@@ -10216,25 +10217,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1331834262}
   m_CullTransparentMesh: 1
---- !u!114 &1333280789
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4a41f9786e10cc74c89c54711f4abb29, type: 3}
-  m_Name: Bomb
-  m_EditorClassIdentifier: 
-  ID: 1
-  Name: Bomb
-  Image: {fileID: 21300000, guid: 5bca15766ae391846a24f3a07cca4a14, type: 3}
-  Sort: 1
-  Level: 1
-  Stat: 1
-  MaxStat: 10
 --- !u!1 &1338152517
 GameObject:
   m_ObjectHideFlags: 0
@@ -10657,7 +10639,7 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1352231798}
   m_CullTransparentMesh: 1
---- !u!114 &1359318993
+--- !u!114 &1355149459
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -10667,15 +10649,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4a41f9786e10cc74c89c54711f4abb29, type: 3}
-  m_Name: Missile
+  m_Name: Clone
   m_EditorClassIdentifier: 
-  ID: 4
-  Name: Missile
-  Image: {fileID: 21300000, guid: 24f405e6836666549929730557e40a84, type: 3}
-  Sort: 3
-  Level: 5
+  ID: 10
+  Name: Clone
+  Image: {fileID: 21300000, guid: c1a1a7282362e7840b8a410370a4cbd7, type: 3}
+  Sort: 8
+  Level: 30
   Stat: 1
-  MaxStat: 10
+  MaxStat: 4
 --- !u!1 &1361834308
 GameObject:
   m_ObjectHideFlags: 0
@@ -12517,25 +12499,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1602447543}
   m_CullTransparentMesh: 1
---- !u!114 &1638066728
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4a41f9786e10cc74c89c54711f4abb29, type: 3}
-  m_Name: Bullet
-  m_EditorClassIdentifier: 
-  ID: 5
-  Name: Bullet
-  Image: {fileID: 21300000, guid: 651c90c572db2a44eacefc2b513479db, type: 3}
-  Sort: 6
-  Level: 5
-  Stat: 1
-  MaxStat: 10
 --- !u!1 &1638876043
 GameObject:
   m_ObjectHideFlags: 0
@@ -12747,6 +12710,25 @@ MonoBehaviour:
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
   m_LayoutPriority: 1
+--- !u!114 &1673844717
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4a41f9786e10cc74c89c54711f4abb29, type: 3}
+  m_Name: Spiral
+  m_EditorClassIdentifier: 
+  ID: 7
+  Name: Spiral
+  Image: {fileID: 21300000, guid: 2181a56bf2c4e094cb703f81cb80f440, type: 3}
+  Sort: 6
+  Level: 10
+  Stat: 1
+  MaxStat: 5
 --- !u!1 &1695370459
 GameObject:
   m_ObjectHideFlags: 0
@@ -13680,25 +13662,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1797491533}
   m_CullTransparentMesh: 1
---- !u!114 &1811626570
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4a41f9786e10cc74c89c54711f4abb29, type: 3}
-  m_Name: Clone
-  m_EditorClassIdentifier: 
-  ID: 10
-  Name: Clone
-  Image: {fileID: 21300000, guid: c1a1a7282362e7840b8a410370a4cbd7, type: 3}
-  Sort: 8
-  Level: 30
-  Stat: 1
-  MaxStat: 4
 --- !u!1 &1823999724
 GameObject:
   m_ObjectHideFlags: 0
@@ -14592,6 +14555,25 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &1867435812
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4a41f9786e10cc74c89c54711f4abb29, type: 3}
+  m_Name: Barrier
+  m_EditorClassIdentifier: 
+  ID: 3
+  Name: Barrier
+  Image: {fileID: 21300000, guid: a7f76bef4156c264cbc5019dc18c51cf, type: 3}
+  Sort: 4
+  Level: 3
+  Stat: 1
+  MaxStat: 10
 --- !u!1 &1869372308
 GameObject:
   m_ObjectHideFlags: 0
@@ -15764,6 +15746,25 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!114 &2007891207
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4a41f9786e10cc74c89c54711f4abb29, type: 3}
+  m_Name: Nuclear
+  m_EditorClassIdentifier: 
+  ID: 9
+  Name: Nuclear
+  Image: {fileID: 21300000, guid: d372d81d5deb7564ead8162db7bc6017, type: 3}
+  Sort: 7
+  Level: 20
+  Stat: 1
+  MaxStat: 4
 --- !u!1 &2017979355
 GameObject:
   m_ObjectHideFlags: 0
@@ -16432,16 +16433,16 @@ MonoBehaviour:
   enemyBase: {fileID: 350016272964680081, guid: a6fe9cbba711a194a954b4585f725966, type: 3}
   itemBase: {fileID: 350016272964680081, guid: c76fbda9a388a614fa410949fae9715f, type: 3}
   itemDatas:
-  - {fileID: 1333280789}
-  - {fileID: 964501176}
-  - {fileID: 291238671}
-  - {fileID: 1359318993}
-  - {fileID: 1638066728}
-  - {fileID: 541137389}
-  - {fileID: 307906694}
-  - {fileID: 119993891}
-  - {fileID: 831391112}
-  - {fileID: 1811626570}
+  - {fileID: 461240950}
+  - {fileID: 619493681}
+  - {fileID: 1867435812}
+  - {fileID: 720379432}
+  - {fileID: 69693747}
+  - {fileID: 486204014}
+  - {fileID: 1673844717}
+  - {fileID: 1150115465}
+  - {fileID: 2007891207}
+  - {fileID: 1355149459}
   eMinCount: 1
   iDelay: 10
   iMinDelay: 3

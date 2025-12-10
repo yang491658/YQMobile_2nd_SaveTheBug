@@ -5,8 +5,8 @@ public class Shield : Item
 {
     #region 스케일
     [Header("Scale")]
-    [SerializeField] private float scale = 1.2f;
-    [SerializeField] private float spin = 120f;
+    [SerializeField][Min(0f)] private float scale = 1.2f;
+    [SerializeField][Min(0f)] private float spin = 120f;
     #endregion
 
     #region 능력
@@ -14,15 +14,15 @@ public class Shield : Item
     private Player player;
 
     private bool isOrigin = true;
-    [SerializeField] private int count = 2;
-    [SerializeField] private int countBonus = 1;
-    [SerializeField] private float gap = 2f;
+    [SerializeField][Min(0)] private int count = 2;
+    [SerializeField][Min(0)] private int countBonus = 1;
+    [SerializeField][Min(0f)] private float gap = 2f;
     private Vector3 offset;
     [Space]
     private bool isFired = false;
-    [SerializeField] private float duration = 5f;
-    [SerializeField] private float durationBonus = 5f;
-    [SerializeField] private float speed = 10f;
+    [SerializeField][Min(0f)] private float duration = 5f;
+    [SerializeField][Min(0f)] private float durationBonus = 5f;
+    [SerializeField][Min(0f)] private float speed = 10f;
     #endregion
 
     protected override void Update()

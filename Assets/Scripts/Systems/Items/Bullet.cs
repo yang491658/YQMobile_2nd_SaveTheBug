@@ -5,7 +5,7 @@ public class Bullet : Item
 {
     #region 스케일
     [Header("Scale")]
-    [SerializeField] private float scale = 0.8f;
+    [SerializeField][Min(0f)] private float scale = 0.8f;
     #endregion
 
     #region 능력
@@ -13,10 +13,10 @@ public class Bullet : Item
     private Player player;
 
     private bool isOrigin = true;
-    [SerializeField] private int count = 10;
-    [SerializeField] private int countBonus = 2;
-    [SerializeField] private float speedRatio = 3f;
-    [SerializeField] private float minSpeed = 1f;
+    [SerializeField][Min(0)] private int count = 10;
+    [SerializeField][Min(0)] private int countBonus = 2;
+    [SerializeField][Min(0f)] private float speedRatio = 3f;
+    [SerializeField][Min(0f)] private float minSpeed = 1f;
     private Vector3 direction = Vector3.up;
     #endregion
 

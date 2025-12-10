@@ -6,7 +6,7 @@ using UnityEditor;
 
 public class Enemy : Entity
 {
-    [SerializeField] private float speed = 3f;
+    [SerializeField][Min(0f)] private float speed = 3f;
 
 #if UNITY_EDITOR
     private void OnValidate()

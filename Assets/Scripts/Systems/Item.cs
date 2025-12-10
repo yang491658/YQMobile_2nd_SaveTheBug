@@ -5,10 +5,10 @@ public class Item : Entity
     public bool isActive { private set; get; } = false;
 
     [Header("Stat")]
-    [SerializeField] private float moveSpeed = 3.5f;
-    [SerializeField] private float growSpeed = 10f;
-    [SerializeField] protected int bonusStat;
-    [SerializeField] private float bgDuration = 15f;
+    [SerializeField][Min(0f)] private float moveSpeed = 3.5f;
+    [SerializeField][Min(0f)] private float growSpeed = 10f;
+    [SerializeField][Min(0)] protected int bonusStat;
+    [SerializeField][Min(0f)] private float bgDuration = 15f;
     private float bgTimer = 0f;
     private Collider2D bgCol;
 

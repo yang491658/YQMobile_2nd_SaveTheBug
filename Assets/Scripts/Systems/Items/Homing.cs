@@ -5,8 +5,8 @@ public class Homing : Item
 {
     #region 스케일
     [Header("Scale")]
-    [SerializeField] private float scale = 2.8f;
-    [SerializeField] private float spin = 360f;
+    [SerializeField][Min(0f)] private float scale = 2.8f;
+    [SerializeField][Min(0f)] private float spin = 360f;
     #endregion
 
     #region 능력
@@ -18,16 +18,16 @@ public class Homing : Item
     private bool isMoving = true;
     private bool isHoming = false;
 
-    [SerializeField] private int count = 3;
-    [SerializeField] private float countBonus = 0.4f;
-    [SerializeField] private float angle = 60f;
-    [SerializeField] private float speed = 10f;
+    [SerializeField][Min(0)] private int count = 3;
+    [SerializeField][Min(0f)] private float countBonus = 0.4f;
+    [SerializeField][Min(0f)] private float angle = 60f;
+    [SerializeField][Min(0f)] private float speed = 10f;
     private Vector3 direction = Vector3.up;
     [Space]
     private Vector3 basePos;
-    [SerializeField] private float distance = 5f;
-    [SerializeField] private float duration = 3f;
-    [SerializeField] private float durationBonus = 0.5f;
+    [SerializeField][Min(0f)] private float distance = 5f;
+    [SerializeField][Min(0f)] private float duration = 3f;
+    [SerializeField][Min(0f)] private float durationBonus = 0.5f;
     #endregion
 
     protected override void Update()

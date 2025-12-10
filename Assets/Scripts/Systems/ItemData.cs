@@ -9,11 +9,11 @@ using UnityEditor;
 public class ItemData : EntityData
 {
     [Header("Item")]
-    public int Sort;
+    [Min(0)] public int Sort;
 
     [Header("Stat")]
     [Min(1)] public int Level = 1;
-    public int Stat = 1;
+    [Min(0)] public int Stat = 1;
     [Min(0)] public int MaxStat = 10;
 
 #if UNITY_EDITOR

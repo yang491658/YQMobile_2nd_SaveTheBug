@@ -10,9 +10,9 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance { private set; get; }
 
     [Header("Speed")]
-    [SerializeField] private float speed = 1f;
-    [SerializeField] private float minSpeed = 0.5f;
-    [SerializeField] private float maxSpeed = 3f;
+    [SerializeField][Min(0f)] private float speed = 1f;
+    [SerializeField][Min(0f)] private float minSpeed = 0.5f;
+    [SerializeField][Min(0f)] private float maxSpeed = 3f;
     public event System.Action<float> OnChangeSpeed;
 
     [Header("Score")]

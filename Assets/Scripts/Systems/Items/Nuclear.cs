@@ -4,18 +4,18 @@ public class Nuclear : Item
 {
     #region 스케일
     [Header("Scale")]
-    [SerializeField] private float scale = 1.2f;
-    [SerializeField] private float spin = 120f;
+    [SerializeField][Min(0f)] private float scale = 1.2f;
+    [SerializeField][Min(0f)] private float spin = 120f;
     #endregion
 
     #region 능력
     [Header("Ability")]
     private bool isOrigin = true;
-    [SerializeField] private int count = 1;
-    [SerializeField] private int countBonus = 2;
-    [SerializeField] private float gap = 1.5f;
-    [SerializeField] private float speed = 16f;
-    [SerializeField] private float speedBonus = 2f;
+    [SerializeField][Min(0)] private int count = 1;
+    [SerializeField][Min(0)] private int countBonus = 2;
+    [SerializeField][Min(0f)] private float gap = 1.5f;
+    [SerializeField][Min(0f)] private float speed = 16f;
+    [SerializeField][Min(0f)] private float speedBonus = 2f;
     #endregion
 
     protected override void Update()
@@ -46,7 +46,7 @@ public class Nuclear : Item
     private void CopySelf()
     {
         Vector3 c = new Vector3(AutoCamera.WorldRect.center.x, AutoCamera.WorldRect.yMin, 0f);
-        
+
         int totalCount = count + countBonus * bonusStat;
         for (int i = 0; i < totalCount; i++)
         {

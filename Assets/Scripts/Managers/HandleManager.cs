@@ -28,22 +28,22 @@ public class HandleManager : MonoBehaviour
     private bool isOverUI;
 
     [Header("Sensitivity")]
-    [SerializeField] private float sens = 1f;
-    [SerializeField] private float minSens = 0.3f;
-    [SerializeField] private float maxSens = 3f;
+    [SerializeField][Min(0f)] private float sens = 1f;
+    [SerializeField][Min(0f)] private float minSens = 0.3f;
+    [SerializeField][Min(0f)] private float maxSens = 3f;
     public event System.Action<float> OnChangeSens;
 
     [Header("Aim")]
     [SerializeField] private bool aimVisible = true;
     [SerializeField] private Transform ring;
     [SerializeField] private Transform handle;
-    [SerializeField] private float aimRatio = 0.35f;
+    [SerializeField][Min(0f)] private float aimRatio = 0.35f;
 
 #if UNITY_EDITOR
     [Header("Mark")]
-    [SerializeField] private float markDuration = 1f;
-    [SerializeField] private float markRadius = 0.5f;
-    [SerializeField] private int markSegment = 24;
+    private float markDuration = 1f;
+    private float markRadius = 0.5f;
+    private int markSegment = 24;
     private readonly List<Vector3> marks = new();
     private readonly List<float> markTimes = new();
     private readonly List<Color> markColors = new();

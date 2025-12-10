@@ -25,7 +25,7 @@ public class EntityManager : MonoBehaviour
     private readonly Dictionary<string, System.Type> itemTypeDic = new Dictionary<string, System.Type>();
 
     [Header("Spawn")]
-    [SerializeField] private int eMinCount = 1;
+    [SerializeField][Min(0)] private int eMinCount = 1;
     [SerializeField][Min(0.05f)] private float iDelay = 10f;
     [SerializeField][Min(0.05f)] private float iMinDelay = 3f;
     private float iDelayBase;

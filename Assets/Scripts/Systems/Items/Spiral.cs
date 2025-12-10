@@ -5,7 +5,7 @@ public class Spiral : Item
 {
     #region 스케일
     [Header("Scale")]
-    [SerializeField] private float scale = 1f;
+    [SerializeField][Min(0f)] private float scale = 1f;
     #endregion
 
     #region 능력
@@ -13,12 +13,12 @@ public class Spiral : Item
     private Player player;
 
     private bool isOrigin = true;
-    [SerializeField] private int count = 1;
-    [SerializeField] private int countBonus = 12;
-    [SerializeField] private float angle = 30f;
-    [SerializeField] private float speed = 8f;
+    [SerializeField][Min(0)] private int count = 1;
+    [SerializeField][Min(0)] private int countBonus = 12;
+    [SerializeField][Min(0f)] private float angle = 30f;
+    [SerializeField][Min(0f)] private float speed = 8f;
     private Vector3 direction = Vector3.up;
-    [SerializeField] private float delay = 0.05f;
+    [SerializeField][Min(0f)] private float delay = 0.05f;
     #endregion
 
     private void LateUpdate()
@@ -51,7 +51,7 @@ public class Spiral : Item
     private IEnumerator CopySelfCoroutine()
     {
         Vector3 baseDir = player.transform.up;
-        
+
         int totalCount = count + countBonus * bonusStat;
         for (int i = 0; i < totalCount; i++)
         {

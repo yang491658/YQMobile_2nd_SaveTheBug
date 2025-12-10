@@ -4,16 +4,16 @@ public class Barrier : Item
 {
     #region 스케일
     [Header("Scale")]
-    [SerializeField] private float scale = 2.5f;
-    [SerializeField] private float spin = 120f;
+    [SerializeField][Min(0f)] private float scale = 2.5f;
+    [SerializeField][Min(0f)] private float spin = 120f;
     #endregion
 
     #region 능력
     [Header("Ability")]
     private Player player;
 
-    [SerializeField] private float duration = 10f;
-    [SerializeField] private float durationBonus = 10f;
+    [SerializeField][Min(0f)] private float duration = 10f;
+    [SerializeField][Min(0f)] private float durationBonus = 10f;
     #endregion
 
     protected override void Update()

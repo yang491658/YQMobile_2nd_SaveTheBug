@@ -43,7 +43,7 @@ public class TestManager : MonoBehaviour
     [Header("Test UI")]
     [SerializeField] private GameObject testUI;
     [Space]
-    [SerializeField] private SliderConfig gameSpeed = new SliderConfig(1, 1, 20, "배속 × {0}");
+    [SerializeField] private SliderConfig gameSpeed = new SliderConfig(1, 1, 10, "배속 × {0}");
     [Space]
     [SerializeField] private TextMeshProUGUI testCountNum;
     [SerializeField] private TextMeshProUGUI maxScoreNum;
@@ -312,8 +312,6 @@ public class TestManager : MonoBehaviour
         maxScore = 0;
         totalScore = 0;
         averageScore = 0;
-
-        gameSpeed.value = gameSpeed.minValue;
 
         UpdateTestUI();
     }

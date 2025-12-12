@@ -45,7 +45,7 @@ public class Shield : Item
     protected override void OnBecameInvisible()
     {
         if (isFired)
-            EntityManager.Instance.DespawnItem(this, 0f, true);
+            EntityManager.Instance?.DespawnItem(this, 0f, true);
     }
 
     public override void UseItem()

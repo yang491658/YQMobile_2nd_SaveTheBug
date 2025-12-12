@@ -171,7 +171,7 @@ public class EntityManager : MonoBehaviour
 
         if (_instant)
         {
-            if (Instance != null) Instance.items.Remove(_item);
+            if (Instance != null) Instance?.items.Remove(_item);
             Destroy(_item.gameObject);
             return;
         }
@@ -196,7 +196,7 @@ public class EntityManager : MonoBehaviour
 
         if (_item != null)
         {
-            if (Instance != null) Instance.items.Remove(_item);
+            if (Instance != null) Instance?.items.Remove(_item);
             Destroy(_item.gameObject);
         }
     }

@@ -55,7 +55,7 @@ public class Bullet : Item
             Bullet copy = EntityManager.Instance?.SpawnItem(data.ID, player.transform.position)
                 .GetComponent<Bullet>();
 
-            Enemy enemy = EntityManager.Instance.GetEnemy(i + 1);
+            Enemy enemy = EntityManager.Instance?.GetEnemy(i + 1);
             Vector3 dir = player.transform.up;
             if (enemy != null)
                 dir = (enemy.transform.position - player.transform.position).normalized;

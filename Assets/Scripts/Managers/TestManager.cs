@@ -106,11 +106,11 @@ public class TestManager : MonoBehaviour
             AutoPlay();
         if (isAuto)
         {
-            MoveItem();
-            if (!GameManager.Instance.IsPaused) RandomStatUp();
-
             if (GameManager.Instance.IsGameOver && autoRoutine == null)
                 autoRoutine = StartCoroutine(AutoReplay());
+
+            MoveItem();
+            if (!GameManager.Instance.IsPaused) RandomStatUp();
         }
 
         if (Input.GetKeyDown(KeyCode.L))

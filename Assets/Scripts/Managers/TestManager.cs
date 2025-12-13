@@ -272,12 +272,7 @@ public class TestManager : MonoBehaviour
     private void ApplySlider(ref SliderConfig _config, float _value, System.Action<int> _afterAction = null)
     {
         _config.value = ChangeSlider(_value, _config);
-
-        if (string.IsNullOrEmpty(_config.format))
-            _config.TMP.text = _config.value.ToString();
-        else
-            _config.TMP.text = string.Format(_config.format, _config.value);
-
+        UpdateSliderUI(_config);
         _afterAction?.Invoke(_config.value);
     }
 
@@ -290,7 +285,7 @@ public class TestManager : MonoBehaviour
 
         _config.slider.value = _config.value;
     }
-    private void ChangeGameSpeed(float _value) => ApplySlider(ref gameSpeed, _value, v => GameManager.Instance?.SetSpeed(v, true));
+    private void ChangeGameSpeed(float _value) => ApplySlider(ref gameSpeed, _value, _v => GameManager.Instance?.SetSpeed(_v, true));
 
     private void UpdateTestUI()
     {
